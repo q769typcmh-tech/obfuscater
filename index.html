@@ -4,34 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LOP Obfuscator</title>
-  <meta name="description" content="LOP Obfuscator — professional Lua protection. Local, fast, paid-grade." />
+  <meta name="description" content="LOP Obfuscator — professional Lua protection. Local, fast." />
   <style>
     :root {
-      --bg: #06070c; --panel: #0c0f18; --card: #121722; --line: #1c2333;
-      --text: #eef1f8; --muted: #8b93a7; --gold: #e8c56a; --gold2: #c9a227;
-      --accent: #8b7cf7; --ok: #3ecf8e; --danger: #ff5c7a;
-      --mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
-      --sans: "Segoe UI", system-ui, -apple-system, sans-serif;
-    }
-    * { box-sizing: border-box; }<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>LOP Obfuscator</title>
-  <meta name="description" content="LOP Obfuscator — professional Lua protection. Local, fast, paid-grade." />
-  <style>
-    :root {
-      --bg: #06070c; --panel: #0c0f18; --card: #121722; --line: #1c2333;
-      --text: #eef1f8; --muted: #8b93a7; --gold: #e8c56a; --gold2: #c9a227;
-      --accent: #8b7cf7; --ok: #3ecf8e; --danger: #ff5c7a;
+      --bg: #06070c;
+      --panel: #0c0f18;
+      --card: #121722;
+      --line: #1c2333;
+      --text: #eef1f8;
+      --muted: #8b93a7;
+      --gold: #e8c56a;
+      --gold2: #c9a227;
+      --accent: #8b7cf7;
+      --ok: #3ecf8e;
+      --danger: #ff5c7a;
       --mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
       --sans: "Segoe UI", system-ui, -apple-system, sans-serif;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0; font-family: var(--sans); color: var(--text);
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
       background:
         radial-gradient(1000px 500px at 10% -15%, rgba(232,197,106,0.14), transparent 55%),
         radial-gradient(800px 420px at 100% 0%, rgba(139,124,247,0.12), transparent 50%),
@@ -39,126 +34,312 @@
     }
     a { color: var(--gold); text-decoration: none; }
     .nav {
-      position: sticky; top: 0; z-index: 50;
+      position: sticky;
+      top: 0;
+      z-index: 50;
       backdrop-filter: blur(12px);
-      background: rgba(6,7,12,0.8);
+      background: rgba(6, 7, 12, 0.85);
       border-bottom: 1px solid var(--line);
     }
     .nav-inner {
-      max-width: 1100px; margin: 0 auto; padding: 14px 18px;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
     }
     .logo {
-      font-weight: 800; letter-spacing: 0.08em; font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 0.95rem;
       background: linear-gradient(90deg, var(--gold), #fff1b8);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
-    .nav-links { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
     .nav-links a { color: var(--muted); font-size: 0.9rem; }
     .nav-links a:hover { color: var(--text); }
     .ver-pill {
-      border: 1px solid rgba(232,197,106,0.35); color: var(--gold);
-      background: rgba(232,197,106,0.08); border-radius: 999px;
-      padding: 5px 10px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em;
+      border: 1px solid rgba(232, 197, 106, 0.35);
+      color: var(--gold);
+      background: rgba(232, 197, 106, 0.08);
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
     }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 18px 64px; }
-    .hero { padding: 48px 0 28px; display: grid; gap: 18px; }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 18px 64px;
+    }
+    .hero {
+      padding: 48px 0 28px;
+      display: grid;
+      gap: 18px;
+    }
     @media (min-width: 900px) {
-      .hero { grid-template-columns: 1.2fr 0.8fr; align-items: center; }
+      .hero {
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: center;
+      }
     }
     .hero h1 {
-      margin: 0; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; letter-spacing: -0.02em;
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
     }
     .hero h1 span {
       background: linear-gradient(90deg, var(--gold), var(--accent));
-      -webkit-background-clip: text; background-clip: text; color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
-    .hero p { margin: 0; color: var(--muted); font-size: 1.05rem; line-height: 1.6; max-width: 34em; }
+    .hero p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      max-width: 34em;
+    }
     .hero-card {
-      background: var(--panel); border: 1px solid var(--line);
-      border-radius: 18px; padding: 20px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
     }
     .hero-card .row {
-      display: flex; justify-content: space-between; gap: 10px;
-      padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 0.92rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.92rem;
     }
     .hero-card .row:last-child { border-bottom: 0; }
     .hero-card .k { color: var(--muted); }
     .hero-card .v { color: var(--text); font-weight: 600; }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
-    .btn {
-      border: 0; border-radius: 12px; padding: 12px 18px;
-      font-weight: 700; cursor: pointer; font-size: 0.92rem;
-      display: inline-flex; align-items: center; justify-content: center;
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
     }
-    .btn-primary { background: linear-gradient(135deg, var(--gold2), var(--gold)); color: #1a1405; }
-    .btn-secondary { background: #151a28; color: var(--text); border: 1px solid var(--line); }
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.92rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold2), var(--gold));
+      color: #1a1405;
+    }
+    .btn-secondary {
+      background: #151a28;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
     .btn:hover { filter: brightness(1.06); }
+    .btn.active {
+      outline: 2px solid var(--gold);
+      outline-offset: 1px;
+    }
     section { margin-top: 36px; }
-    section h2 { margin: 0 0 12px; font-size: 1.25rem; }
-    section .sub { color: var(--muted); margin: 0 0 16px; font-size: 0.95rem; }
+    section h2 {
+      margin: 0 0 8px;
+      font-size: 1.25rem;
+    }
+    section .sub {
+      color: var(--muted);
+      margin: 0 0 16px;
+      font-size: 0.95rem;
+    }
     .panel {
-      background: rgba(12,15,24,0.95); border: 1px solid var(--line);
-      border-radius: 16px; overflow: hidden; margin-bottom: 14px;
+      background: rgba(12, 15, 24, 0.95);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 14px;
     }
     .bar {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 11px 16px; border-bottom: 1px solid var(--line);
-      background: rgba(0,0,0,0.22); font-size: 0.75rem; color: var(--muted);
-      letter-spacing: 0.05em; text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.22);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
     textarea {
-      width: 100%; min-height: 260px; border: 0; outline: none;
-      resize: vertical; padding: 16px; background: transparent;
-      color: var(--text); font-family: var(--mono); font-size: 12.5px; line-height: 1.5;
+      width: 100%;
+      min-height: 260px;
+      border: 0;
+      outline: none;
+      resize: vertical;
+      padding: 16px;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.5;
     }
-    .grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
-    @media (min-width: 960px) { .grid.editors { grid-template-columns: 1fr 1fr; } }
-    .options { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 16px; }
-    @media (min-width: 800px) { .options { grid-template-columns: 1fr 1fr; } }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 960px) {
+      .grid.editors { grid-template-columns: 1fr 1fr; }
+    }
+    .preset-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 14px 16px 0;
+    }
+    .preset-bar .btn {
+      padding: 9px 14px;
+      font-size: 0.82rem;
+    }
+    .options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 16px;
+    }
+    @media (min-width: 800px) {
+      .options { grid-template-columns: 1fr 1fr; }
+    }
     .opt {
-      display: flex; align-items: flex-start; justify-content: space-between;
-      gap: 12px; padding: 12px 14px; border: 1px solid var(--line);
-      border-radius: 12px; background: var(--card);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
     }
-    .opt h3 { margin: 0; font-size: 0.9rem; }
-    .opt p { margin: 4px 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.35; }
-    .switch { position: relative; width: 46px; height: 26px; flex-shrink: 0; }
-    .switch input { opacity: 0; width: 0; height: 0; }
+    .opt h3 {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+    .opt p {
+      margin: 4px 0 0;
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+    .switch {
+      position: relative;
+      width: 46px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
     .slider {
-      position: absolute; inset: 0; cursor: pointer;
-      background: #2a3145; border-radius: 999px; transition: 0.2s;
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      background: #2a3145;
+      border-radius: 999px;
+      transition: 0.2s;
     }
     .slider:before {
-      content: ""; position: absolute; width: 20px; height: 20px;
-      left: 3px; top: 3px; background: #c5d0e6; border-radius: 50%; transition: 0.2s;
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      left: 3px;
+      top: 3px;
+      background: #c5d0e6;
+      border-radius: 50%;
+      transition: 0.2s;
     }
-    .switch input:checked + .slider { background: linear-gradient(135deg, var(--gold2), var(--gold)); }
-    .switch input:checked + .slider:before { transform: translateX(20px); background: #1a1405; }
-    .actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 16px; }
-    .preset-bar {
-      display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px 0;
+    .switch input:checked + .slider {
+      background: linear-gradient(135deg, var(--gold2), var(--gold));
     }
-    .preset-bar .btn { padding: 9px 14px; font-size: 0.82rem; }
-    .preset-bar .btn.active {
-      outline: 2px solid var(--gold); outline-offset: 1px;
+    .switch input:checked + .slider:before {
+      transform: translateX(20px);
+      background: #1a1405;
     }
-    .status { min-height: 22px; margin: 10px 2px 0; font-size: 0.9rem; color: var(--muted); }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 0 16px 16px;
+    }
+    .status {
+      min-height: 22px;
+      margin: 10px 2px 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
     .status.ok { color: var(--ok); }
     .status.err { color: var(--danger); }
     .update {
-      background: var(--panel); border: 1px solid var(--line);
-      border-radius: 14px; padding: 16px 18px; margin-bottom: 12px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
     }
-    .update .top { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-    .update .tag { color: var(--gold); font-weight: 700; font-size: 0.85rem; }
-    .update .date { color: var(--muted); font-size: 0.85rem; }
-    .update ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); }
+    .update .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .update .tag {
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .update .date {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .update ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
     .update li { margin: 4px 0; }
     footer {
-      margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line);
-      color: var(--muted); font-size: 0.85rem;
-      display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      margin-top: 48px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
   </style>
 </head>
@@ -170,7 +351,7 @@
         <a href="#tool">Tool</a>
         <a href="#updates">Updates</a>
         <a href="#about">About</a>
-        <span class="ver-pill" id="navVersion">v1.0.0</span>
+        <span class="ver-pill" id="navVersion">v1.2.0</span>
       </div>
     </div>
   </nav>
@@ -187,7 +368,7 @@
       </div>
       <div class="hero-card">
         <div class="row"><span class="k">Product</span><span class="v">LOP Obfuscator</span></div>
-        <div class="row"><span class="k">Version</span><span class="v" id="heroVersion">1.0.0</span></div>
+        <div class="row"><span class="k">Version</span><span class="v" id="heroVersion">1.2.0</span></div>
         <div class="row"><span class="k">Build</span><span class="v" id="heroBuild">2026.09.24</span></div>
         <div class="row"><span class="k">Mode</span><span class="v">Local · Client-side</span></div>
         <div class="row"><span class="k">Status</span><span class="v" style="color:var(--ok)">Operational</span></div>
@@ -196,7 +377,8 @@
 
     <section id="tool">
       <h2>Obfuscator</h2>
-      <p class="sub">Paste source → choose protection layers → export protected Lua.</p>
+      <p class="sub">Paste source → choose a preset or layers → export protected Lua.</p>
+
       <div class="panel">
         <div class="bar"><span>Protection layers</span><span>LOP engine</span></div>
         <div class="preset-bar" id="presets">
@@ -207,14 +389,15 @@
         </div>
         <div class="options" id="options"></div>
         <div class="actions">
-          <button class="btn btn-primary" id="btnRun">Obfuscate</button>
-          <button class="btn btn-secondary" id="btnCopy">Copy</button>
-          <button class="btn btn-secondary" id="btnDownload">Download .lua</button>
-          <button class="btn btn-secondary" id="btnAllOn">All on</button>
-          <button class="btn btn-secondary" id="btnAllOff">All off</button>
-          <button class="btn btn-secondary" id="btnClear">Clear</button>
+          <button type="button" class="btn btn-primary" id="btnRun">Obfuscate</button>
+          <button type="button" class="btn btn-secondary" id="btnCopy">Copy</button>
+          <button type="button" class="btn btn-secondary" id="btnDownload">Download .lua</button>
+          <button type="button" class="btn btn-secondary" id="btnAllOn">All on</button>
+          <button type="button" class="btn btn-secondary" id="btnAllOff">All off</button>
+          <button type="button" class="btn btn-secondary" id="btnClear">Clear</button>
         </div>
       </div>
+
       <div class="grid editors">
         <div class="panel">
           <div class="bar"><span>Input</span><span id="inStats">0 chars</span></div>
@@ -230,7 +413,7 @@
 
     <section id="updates">
       <h2>Update logs</h2>
-      <p class="sub">Official product changelog. Version is always shown in the header.</p>
+      <p class="sub">Official product changelog. One version — always shown in the header.</p>
       <div id="updateList"></div>
     </section>
 
@@ -241,36 +424,44 @@
 
     <footer>
       <span>© LOP Obfuscator</span>
-      <span id="footVersion">v1.0.0</span>
+      <span id="footVersion">v1.2.0</span>
     </footer>
   </div>
 
   <script>
     const PRODUCT = {
       name: "LOP Obfuscator",
-      version: "1.1.0",
+      version: "1.2.0",
       build: "2026.09.24",
       updates: [
+        {
+          version: "1.2.0",
+          date: "2026-09-24",
+          added: [
+            "Full page rebuild (clean HTML)",
+            "Single consistent version everywhere (no double site)",
+            "Fixed CSS text leaking onto the page"
+          ],
+          changed: [
+            "Presets + engine stable on one page",
+            "Vasper watermark kept"
+          ],
+          fixed: [
+            "Broken layout / raw CSS visible on GitHub Pages",
+            "Mixed v1.0.0 / v1.1.0 badges"
+          ],
+          removed: []
+        },
         {
           version: "1.1.0",
           date: "2026-09-24",
           added: [
-            "BIG UPDATE — protection presets: Light / Medium / Heavy / Maximum",
-            "One-click preset buttons above the engine",
-            "Stronger multi-pass XOR pack (double scramble option in Heavy+)",
-            "Vasper big ASCII watermark banner",
-            "Output size stats (input → output growth %)",
-            "Live site published on GitHub Pages"
+            "Presets: Light / Medium / Heavy / Maximum",
+            "Vasper big ASCII watermark",
+            "Output size stats"
           ],
-          changed: [
-            "Default layer set tuned for cheat-script protection",
-            "Watermark toggle renamed to Vasper watermark",
-            "Version badge / hero / footer now track 1.1.0"
-          ],
-          fixed: [
-            "Watermark now always sits on top of packed output",
-            "Clearer status line after obfuscate"
-          ],
+          changed: ["Default preset Medium"],
+          fixed: ["Watermark on packed output"],
           removed: []
         },
         {
@@ -278,10 +469,9 @@
           date: "2026-09-24",
           added: [
             "Initial public release",
-            "XOR + Base64 loader pack",
-            "String encryption, minify, junk, rename options",
-            "Local-only processing (no upload)",
-            "Version badge + update logs page section"
+            "XOR + Base64 pack",
+            "String encryption, minify, junk, rename",
+            "GitHub Pages launch"
           ],
           changed: [],
           fixed: [],
@@ -296,22 +486,29 @@
     document.getElementById("footVersion").textContent = "v" + PRODUCT.version;
 
     const list = document.getElementById("updateList");
-    PRODUCT.updates.forEach((u) => {
+    PRODUCT.updates.forEach(function (u) {
       const el = document.createElement("article");
       el.className = "update";
-      const block = (title, arr) =>
-        arr && arr.length
-          ? `<div style="margin-top:8px"><strong style="color:var(--text)">${title}</strong><ul>${arr.map((x) => `<li>${x}</li>`).join("")}</ul></div>`
-          : "";
-      el.innerHTML = `
-        <div class="top">
-          <span class="tag">v${u.version}</span>
-          <span class="date">${u.date}</span>
-        </div>
-        ${block("[+] Added", u.added)}
-        ${block("[*] Changed", u.changed)}
-        ${block("[F] Fixed", u.fixed)}
-        ${block("[-] Removed", u.removed)}`;
+      function block(title, arr) {
+        if (!arr || !arr.length) return "";
+        return (
+          '<div style="margin-top:8px"><strong style="color:var(--text)">' +
+          title +
+          "</strong><ul>" +
+          arr.map(function (x) { return "<li>" + x + "</li>"; }).join("") +
+          "</ul></div>"
+        );
+      }
+      el.innerHTML =
+        '<div class="top"><span class="tag">v' +
+        u.version +
+        '</span><span class="date">' +
+        u.date +
+        "</span></div>" +
+        block("[+] Added", u.added) +
+        block("[*] Changed", u.changed) +
+        block("[F] Fixed", u.fixed) +
+        block("[-] Removed", u.removed);
       list.appendChild(el);
     });
 
@@ -319,184 +516,232 @@
       { id: "stripComments", title: "Strip comments", desc: "Remove -- comments", on: true },
       { id: "minify", title: "Minify", desc: "Collapse whitespace", on: true },
       { id: "stringEnc", title: "String encryption", desc: "Runtime-decoded strings", on: true },
-      { id: "varRename", title: "Variable renaming", desc: "Locals → unreadable names", on: true },
+      { id: "varRename", title: "Variable renaming", desc: "Locals to unreadable names", on: true },
       { id: "hexNames", title: "Hex identifiers", desc: "_0x style names", on: true },
-      { id: "junk", title: "Junk injection", desc: "Decoy variables & dead code", on: true },
+      { id: "junk", title: "Junk injection", desc: "Decoy variables and dead code", on: true },
       { id: "controlFlow", title: "Control-flow", desc: "Opaque predicates", on: false },
       { id: "xorPack", title: "XOR loader pack", desc: "Base64 + XOR wrapper", on: true },
-      { id: "watermark", title: "Vasper watermark", desc: "Big ASCII banner: OBFUSCATED BY VASPER", on: true }
+      { id: "watermark", title: "Vasper watermark", desc: "Big ASCII: OBFUSCATED BY VASPER", on: true }
     ];
+
     const flags = {};
     const optionsEl = document.getElementById("options");
-    OPTS.forEach((o) => {
+    OPTS.forEach(function (o) {
       flags[o.id] = o.on;
       const row = document.createElement("div");
       row.className = "opt";
-      row.innerHTML = `<div><h3>${o.title}</h3><p>${o.desc}</p></div>
-        <label class="switch"><input type="checkbox" id="opt_${o.id}" ${o.on ? "checked" : ""}/><span class="slider"></span></label>`;
+      row.innerHTML =
+        "<div><h3>" +
+        o.title +
+        "</h3><p>" +
+        o.desc +
+        '</p></div><label class="switch"><input type="checkbox" id="opt_' +
+        o.id +
+        '"' +
+        (o.on ? " checked" : "") +
+        '/><span class="slider"></span></label>';
       optionsEl.appendChild(row);
-      row.querySelector("input").addEventListener("change", (e) => { flags[o.id] = e.target.checked; });
+      row.querySelector("input").addEventListener("change", function (e) {
+        flags[o.id] = e.target.checked;
+      });
     });
 
     const PRESETS = {
-      light: { stripComments:true, minify:true, stringEnc:false, varRename:true, hexNames:false, junk:false, controlFlow:false, xorPack:false, watermark:true },
-      medium: { stripComments:true, minify:true, stringEnc:true, varRename:true, hexNames:true, junk:true, controlFlow:false, xorPack:true, watermark:true },
-      heavy: { stripComments:true, minify:true, stringEnc:true, varRename:true, hexNames:true, junk:true, controlFlow:true, xorPack:true, watermark:true },
-      maximum: { stripComments:true, minify:true, stringEnc:true, varRename:true, hexNames:true, junk:true, controlFlow:true, xorPack:true, watermark:true },
+      light: { stripComments: true, minify: true, stringEnc: false, varRename: true, hexNames: false, junk: false, controlFlow: false, xorPack: false, watermark: true },
+      medium: { stripComments: true, minify: true, stringEnc: true, varRename: true, hexNames: true, junk: true, controlFlow: false, xorPack: true, watermark: true },
+      heavy: { stripComments: true, minify: true, stringEnc: true, varRename: true, hexNames: true, junk: true, controlFlow: true, xorPack: true, watermark: true },
+      maximum: { stripComments: true, minify: true, stringEnc: true, varRename: true, hexNames: true, junk: true, controlFlow: true, xorPack: true, watermark: true }
     };
+
     function applyPreset(name) {
       const p = PRESETS[name];
       if (!p) return;
-      OPTS.forEach((o) => {
+      OPTS.forEach(function (o) {
         flags[o.id] = !!p[o.id];
         const el = document.getElementById("opt_" + o.id);
         if (el) el.checked = flags[o.id];
       });
-      document.querySelectorAll("#presets .btn").forEach((b) => {
+      document.querySelectorAll("#presets .btn").forEach(function (b) {
         b.classList.toggle("active", b.getAttribute("data-preset") === name);
       });
       setStatus("Preset: " + name.toUpperCase() + " · v" + PRODUCT.version, "ok");
     }
-    document.querySelectorAll("#presets .btn").forEach((b) => {
-      b.addEventListener("click", () => applyPreset(b.getAttribute("data-preset")));
+
+    document.querySelectorAll("#presets .btn").forEach(function (b) {
+      b.addEventListener("click", function () {
+        applyPreset(b.getAttribute("data-preset"));
+      });
     });
 
     const input = document.getElementById("input");
     const output = document.getElementById("output");
     const status = document.getElementById("status");
+
     function setStatus(msg, type) {
       status.textContent = msg;
       status.className = "status" + (type ? " " + type : "");
     }
+
     function updateStats() {
       document.getElementById("inStats").textContent = input.value.length + " chars";
       document.getElementById("outStats").textContent = output.value.length + " chars";
     }
+
     input.addEventListener("input", updateStats);
 
-    const RESERVED = new Set(["and","break","do","else","elseif","end","false","for","function","goto","if","in","local","nil","not","or","repeat","return","then","true","until","while","game","workspace","script","shared","self","pairs","ipairs","next","pcall","type","tostring","tonumber","print","warn","error","table","string","math","bit32","task","require","loadstring","assert"]);
+    const RESERVED = new Set([
+      "and","break","do","else","elseif","end","false","for","function","goto","if","in","local","nil","not","or",
+      "repeat","return","then","true","until","while","game","workspace","script","shared","self","pairs","ipairs",
+      "next","pcall","type","tostring","tonumber","print","warn","error","table","string","math","bit32","task",
+      "require","loadstring","assert"
+    ]);
 
     function stripComments(src) {
       src = src.replace(/--\[\[.*?\]\]/gs, "");
-      return src.split("\n").filter((l) => !l.trim().startsWith("--")).join("\n");
+      return src.split("\n").filter(function (l) { return !l.trim().startsWith("--"); }).join("\n");
     }
+
     function minify(src) {
       return src.replace(/\r\n/g, "\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
     }
+
     function renameLocals(src) {
       const names = new Map();
       let i = 0;
-      const mk = () => flags.hexNames ? `_0x${(i++).toString(16)}${(Math.random()*4095|0).toString(16)}` : `_${(i++).toString(36)}`;
-      src = src.replace(/\blocal\s+([A-Za-z_][A-Za-z0-9_]*)\b/g, (m, n) => {
+      function mk() {
+        return flags.hexNames
+          ? "_0x" + (i++).toString(16) + ((Math.random() * 4095) | 0).toString(16)
+          : "_" + (i++).toString(36);
+      }
+      src = src.replace(/\blocal\s+([A-Za-z_][A-Za-z0-9_]*)\b/g, function (m, n) {
         if (RESERVED.has(n)) return m;
         if (!names.has(n)) names.set(n, mk());
         return "local " + names.get(n);
       });
-      src = src.replace(/\bfunction\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(/g, (m, n) => {
+      src = src.replace(/\bfunction\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(/g, function (m, n) {
         if (RESERVED.has(n)) return m;
         if (!names.has(n)) names.set(n, mk());
         return "function " + names.get(n) + "(";
       });
-      [...names.keys()].sort((a,b)=>b.length-a.length).forEach((n) => {
-        src = src.replace(new RegExp("\\b"+n+"\\b","g"), names.get(n));
-      });
+      Array.from(names.keys())
+        .sort(function (a, b) { return b.length - a.length; })
+        .forEach(function (n) {
+          src = src.replace(new RegExp("\\b" + n + "\\b", "g"), names.get(n));
+        });
       return src;
     }
+
     function encryptStrings(src) {
       const encoded = [];
       function store(str) {
         const bytes = new TextEncoder().encode(str);
         let bin = "";
-        bytes.forEach((b) => (bin += String.fromCharCode(b ^ 0x5a)));
+        bytes.forEach(function (b) { bin += String.fromCharCode(b ^ 0x5a); });
         encoded.push(btoa(bin));
-        return `_S(${encoded.length-1})`;
+        return "_S(" + (encoded.length - 1) + ")";
       }
-      src = src.replace(/"(?:\\.|[^"\\])*"/g, (m) => {
+      src = src.replace(/"(?:\\.|[^"\\])*"/g, function (m) {
         if (m.length < 3 || m.length > 100) return m;
         try {
           const inner = JSON.parse(m);
           if (typeof inner !== "string") return m;
           return store(inner);
-        } catch { return m; }
+        } catch (e) {
+          return m;
+        }
       });
       if (!encoded.length) return src;
-      const table = encoded.map((s) => `"${s}"`).join(",");
-      return `local function _S(i)
-	local _t={${table}}
-	local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-	local data=string.gsub(_t[i+1] or '','[^'..b..'=]','')
-	local raw=(data:gsub('.',function(x)
-		if x=='=' then return '' end
-		local r,f='',(b:find(x)-1)
-		for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
-		return r
-	end):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)
-		if #x~=8 then return '' end
-		local c=0
-		for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
-		return string.char(c)
-	end))
-	local out={}
-	for j=1,#raw do out[j]=string.char(bit32.bxor(string.byte(raw,j),0x5A)) end
-	return table.concat(out)
-end
-` + src;
+      const table = encoded.map(function (s) { return '"' + s + '"'; }).join(",");
+      return (
+        "local function _S(i)\n" +
+        "\tlocal _t={" + table + "}\n" +
+        "\tlocal b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'\n" +
+        "\tlocal data=string.gsub(_t[i+1] or '','[^'..b..'=]','')\n" +
+        "\tlocal raw=(data:gsub('.',function(x)\n" +
+        "\t\tif x=='=' then return '' end\n" +
+        "\t\tlocal r,f='',(b:find(x)-1)\n" +
+        "\t\tfor i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end\n" +
+        "\t\treturn r\n" +
+        "\tend):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)\n" +
+        "\t\tif #x~=8 then return '' end\n" +
+        "\t\tlocal c=0\n" +
+        "\t\tfor i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end\n" +
+        "\t\treturn string.char(c)\n" +
+        "\tend))\n" +
+        "\tlocal out={}\n" +
+        "\tfor j=1,#raw do out[j]=string.char(bit32.bxor(string.byte(raw,j),0x5A)) end\n" +
+        "\treturn table.concat(out)\n" +
+        "end\n" +
+        src
+      );
     }
+
     function junkCode(src) {
-      return `local _j1=0
-local _j2=string.char(108,111,112)
-local _j3=function(x) return x end
-do local _d=0 if _d~=_d then _j1=1 end end
-` + src;
+      return (
+        "local _j1=0\n" +
+        "local _j2=string.char(108,111,112)\n" +
+        "local _j3=function(x) return x end\n" +
+        "do local _d=0 if _d~=_d then _j1=1 end end\n" +
+        src
+      );
     }
+
     function controlFlow(src) {
-      return `local _cf=(function() local a=1+1 if a*a==4 and a~=3 then return true end return false end)()
-if not _cf then return end
-` + src;
+      return (
+        "local _cf=(function() local a=1+1 if a*a==4 and a~=3 then return true end return false end)()\n" +
+        "if not _cf then return end\n" +
+        src
+      );
     }
+
     function xorPack(src) {
       const data = Array.from(new TextEncoder().encode(src));
-      const key = Array.from({ length: 32 }, () => 1 + (Math.random() * 255) | 0);
-      const xored = data.map((b, i) => b ^ key[i % key.length]);
-      const toB64 = (arr) => { let bin = ""; arr.forEach((b) => (bin += String.fromCharCode(b))); return btoa(bin); };
+      const key = Array.from({ length: 32 }, function () { return 1 + ((Math.random() * 255) | 0); });
+      const xored = data.map(function (b, i) { return b ^ key[i % key.length]; });
+      function toB64(arr) {
+        let bin = "";
+        arr.forEach(function (b) { bin += String.fromCharCode(b); });
+        return btoa(bin);
+      }
       const payload = toB64(xored);
       const keyB64 = toB64(key);
       const chunks = [];
-      for (let i = 0; i < payload.length; i += 100) chunks.push(`"${payload.slice(i, i + 100)}"`);
-      const mark = "";
-      return `${mark}local bit32=bit32
-local function _B64(data)
-	local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-	data=string.gsub(data,'[^'..b..'=]','')
-	return (data:gsub('.',function(x)
-		if x=='=' then return '' end
-		local r,f='',(b:find(x)-1)
-		for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
-		return r
-	end):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)
-		if #x~=8 then return '' end
-		local c=0
-		for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
-		return string.char(c)
-	end))
-end
-local function _XOR(data,key)
-	local out={}
-	local kl=#key
-	for i=1,#data do out[i]=string.char(bit32.bxor(string.byte(data,i),string.byte(key,((i-1)%kl)+1))) end
-	return table.concat(out)
-end
-local _K=_B64("${keyB64}")
-local _P=table.concat({
-${chunks.join(",\n")}
-})
-local _src=_XOR(_B64(_P),_K)
-local _fn,_err=loadstring(_src)
-if not _fn then warn("[LOP] load failed: "..tostring(_err)) return end
-return _fn()
-`;
+      for (let i = 0; i < payload.length; i += 100) {
+        chunks.push('"' + payload.slice(i, i + 100) + '"');
+      }
+      return (
+        "local bit32=bit32\n" +
+        "local function _B64(data)\n" +
+        "\tlocal b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'\n" +
+        "\tdata=string.gsub(data,'[^'..b..'=]','')\n" +
+        "\treturn (data:gsub('.',function(x)\n" +
+        "\t\tif x=='=' then return '' end\n" +
+        "\t\tlocal r,f='',(b:find(x)-1)\n" +
+        "\t\tfor i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end\n" +
+        "\t\treturn r\n" +
+        "\tend):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)\n" +
+        "\t\tif #x~=8 then return '' end\n" +
+        "\t\tlocal c=0\n" +
+        "\t\tfor i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end\n" +
+        "\t\treturn string.char(c)\n" +
+        "\tend))\n" +
+        "end\n" +
+        "local function _XOR(data,key)\n" +
+        "\tlocal out={}\n" +
+        "\tlocal kl=#key\n" +
+        "\tfor i=1,#data do out[i]=string.char(bit32.bxor(string.byte(data,i),string.byte(key,((i-1)%kl)+1))) end\n" +
+        "\treturn table.concat(out)\n" +
+        "end\n" +
+        'local _K=_B64("' + keyB64 + '")\n' +
+        "local _P=table.concat({\n" +
+        chunks.join(",\n") +
+        "\n})\n" +
+        "local _src=_XOR(_B64(_P),_K)\n" +
+        "local _fn,_err=loadstring(_src)\n" +
+        'if not _fn then warn("[LOP] load failed: "..tostring(_err)) return end\n' +
+        "return _fn()\n"
+      );
     }
-
 
     function injectWatermark(src) {
       if (!flags.watermark) return src;
@@ -523,7 +768,10 @@ return _fn()
 
     function obfuscate() {
       let src = input.value;
-      if (!src.trim()) return setStatus("Paste source first.", "err");
+      if (!src.trim()) {
+        setStatus("Paste source first.", "err");
+        return;
+      }
       try {
         if (flags.stripComments) src = stripComments(src);
         if (flags.minify) src = minify(src);
@@ -536,517 +784,64 @@ return _fn()
         src = injectWatermark(src);
         output.value = src;
         const growth = input.value.length ? Math.round((src.length / input.value.length) * 100) : 0;
-        setStatus("Protected · v" + PRODUCT.version + " · " + src.length + " chars · " + growth + "% of original size", "ok");
+        setStatus("Protected · v" + PRODUCT.version + " · " + src.length + " chars · " + growth + "% of original", "ok");
         updateStats();
       } catch (e) {
         setStatus("Error: " + e.message, "err");
       }
     }
 
-    document.getElementById("btnRun").onclick = obfuscate;
-    document.getElementById("btnCopy").onclick = async () => {
-      if (!output.value) return setStatus("Nothing to copy.", "err");
-      try { await navigator.clipboard.writeText(output.value); setStatus("Copied.", "ok"); }
-      catch { output.select(); document.execCommand("copy"); setStatus("Copied.", "ok"); }
-    };
-    document.getElementById("btnDownload").onclick = () => {
-      if (!output.value) return setStatus("Nothing to download.", "err");
+    document.getElementById("btnRun").addEventListener("click", obfuscate);
+    document.getElementById("btnCopy").addEventListener("click", async function () {
+      if (!output.value) {
+        setStatus("Nothing to copy.", "err");
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(output.value);
+        setStatus("Copied.", "ok");
+      } catch (e) {
+        output.select();
+        document.execCommand("copy");
+        setStatus("Copied.", "ok");
+      }
+    });
+    document.getElementById("btnDownload").addEventListener("click", function () {
+      if (!output.value) {
+        setStatus("Nothing to download.", "err");
+        return;
+      }
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([output.value], { type: "text/plain" }));
-      a.download = "lop_protected.lua"; a.click(); setStatus("Download started.", "ok");
-    };
-    document.getElementById("btnClear").onclick = () => { input.value=""; output.value=""; updateStats(); setStatus("Cleared."); };
-    document.getElementById("btnAllOn").onclick = () => {
-      OPTS.forEach((o)=>{ flags[o.id]=true; const el=document.getElementById("opt_"+o.id); if(el) el.checked=true; });
+      a.download = "lop_protected.lua";
+      a.click();
+      setStatus("Download started.", "ok");
+    });
+    document.getElementById("btnClear").addEventListener("click", function () {
+      input.value = "";
+      output.value = "";
+      updateStats();
+      setStatus("Cleared.");
+    });
+    document.getElementById("btnAllOn").addEventListener("click", function () {
+      OPTS.forEach(function (o) {
+        flags[o.id] = true;
+        const el = document.getElementById("opt_" + o.id);
+        if (el) el.checked = true;
+      });
       setStatus("All layers on.");
-    };
-    document.getElementById("btnAllOff").onclick = () => {
-      OPTS.forEach((o)=>{ flags[o.id]=false; const el=document.getElementById("opt_"+o.id); if(el) el.checked=false; });
+    });
+    document.getElementById("btnAllOff").addEventListener("click", function () {
+      OPTS.forEach(function (o) {
+        flags[o.id] = false;
+        const el = document.getElementById("opt_" + o.id);
+        if (el) el.checked = false;
+      });
       setStatus("All layers off.");
-    };
+    });
+
     updateStats();
     applyPreset("medium");
-  </script>
-</body>
-</html>
-
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0; font-family: var(--sans); color: var(--text);
-      background:
-        radial-gradient(1000px 500px at 10% -15%, rgba(232,197,106,0.14), transparent 55%),
-        radial-gradient(800px 420px at 100% 0%, rgba(139,124,247,0.12), transparent 50%),
-        var(--bg);
-    }
-    a { color: var(--gold); text-decoration: none; }
-    .nav {
-      position: sticky; top: 0; z-index: 50;
-      backdrop-filter: blur(12px);
-      background: rgba(6,7,12,0.8);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav-inner {
-      max-width: 1100px; margin: 0 auto; padding: 14px 18px;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    }
-    .logo {
-      font-weight: 800; letter-spacing: 0.08em; font-size: 0.95rem;
-      background: linear-gradient(90deg, var(--gold), #fff1b8);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .nav-links { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
-    .nav-links a { color: var(--muted); font-size: 0.9rem; }
-    .nav-links a:hover { color: var(--text); }
-    .ver-pill {
-      border: 1px solid rgba(232,197,106,0.35); color: var(--gold);
-      background: rgba(232,197,106,0.08); border-radius: 999px;
-      padding: 5px 10px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em;
-    }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 18px 64px; }
-    .hero { padding: 48px 0 28px; display: grid; gap: 18px; }
-    @media (min-width: 900px) {
-      .hero { grid-template-columns: 1.2fr 0.8fr; align-items: center; }
-    }
-    .hero h1 {
-      margin: 0; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; letter-spacing: -0.02em;
-    }
-    .hero h1 span {
-      background: linear-gradient(90deg, var(--gold), var(--accent));
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .hero p { margin: 0; color: var(--muted); font-size: 1.05rem; line-height: 1.6; max-width: 34em; }
-    .hero-card {
-      background: var(--panel); border: 1px solid var(--line);
-      border-radius: 18px; padding: 20px;
-    }
-    .hero-card .row {
-      display: flex; justify-content: space-between; gap: 10px;
-      padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 0.92rem;
-    }
-    .hero-card .row:last-child { border-bottom: 0; }
-    .hero-card .k { color: var(--muted); }
-    .hero-card .v { color: var(--text); font-weight: 600; }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
-    .btn {
-      border: 0; border-radius: 12px; padding: 12px 18px;
-      font-weight: 700; cursor: pointer; font-size: 0.92rem;
-      display: inline-flex; align-items: center; justify-content: center;
-    }
-    .btn-primary { background: linear-gradient(135deg, var(--gold2), var(--gold)); color: #1a1405; }
-    .btn-secondary { background: #151a28; color: var(--text); border: 1px solid var(--line); }
-    .btn:hover { filter: brightness(1.06); }
-    section { margin-top: 36px; }
-    section h2 { margin: 0 0 12px; font-size: 1.25rem; }
-    section .sub { color: var(--muted); margin: 0 0 16px; font-size: 0.95rem; }
-    .panel {
-      background: rgba(12,15,24,0.95); border: 1px solid var(--line);
-      border-radius: 16px; overflow: hidden; margin-bottom: 14px;
-    }
-    .bar {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 11px 16px; border-bottom: 1px solid var(--line);
-      background: rgba(0,0,0,0.22); font-size: 0.75rem; color: var(--muted);
-      letter-spacing: 0.05em; text-transform: uppercase;
-    }
-    textarea {
-      width: 100%; min-height: 260px; border: 0; outline: none;
-      resize: vertical; padding: 16px; background: transparent;
-      color: var(--text); font-family: var(--mono); font-size: 12.5px; line-height: 1.5;
-    }
-    .grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
-    @media (min-width: 960px) { .grid.editors { grid-template-columns: 1fr 1fr; } }
-    .options { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 16px; }
-    @media (min-width: 800px) { .options { grid-template-columns: 1fr 1fr; } }
-    .opt {
-      display: flex; align-items: flex-start; justify-content: space-between;
-      gap: 12px; padding: 12px 14px; border: 1px solid var(--line);
-      border-radius: 12px; background: var(--card);
-    }
-    .opt h3 { margin: 0; font-size: 0.9rem; }
-    .opt p { margin: 4px 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.35; }
-    .switch { position: relative; width: 46px; height: 26px; flex-shrink: 0; }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider {
-      position: absolute; inset: 0; cursor: pointer;
-      background: #2a3145; border-radius: 999px; transition: 0.2s;
-    }
-    .slider:before {
-      content: ""; position: absolute; width: 20px; height: 20px;
-      left: 3px; top: 3px; background: #c5d0e6; border-radius: 50%; transition: 0.2s;
-    }
-    .switch input:checked + .slider { background: linear-gradient(135deg, var(--gold2), var(--gold)); }
-    .switch input:checked + .slider:before { transform: translateX(20px); background: #1a1405; }
-    .actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 16px; }
-    .status { min-height: 22px; margin: 10px 2px 0; font-size: 0.9rem; color: var(--muted); }
-    .status.ok { color: var(--ok); }
-    .status.err { color: var(--danger); }
-    .update {
-      background: var(--panel); border: 1px solid var(--line);
-      border-radius: 14px; padding: 16px 18px; margin-bottom: 12px;
-    }
-    .update .top { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-    .update .tag { color: var(--gold); font-weight: 700; font-size: 0.85rem; }
-    .update .date { color: var(--muted); font-size: 0.85rem; }
-    .update ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); }
-    .update li { margin: 4px 0; }
-    footer {
-      margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line);
-      color: var(--muted); font-size: 0.85rem;
-      display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-    }
-  </style>
-</head>
-<body>
-  <nav class="nav">
-    <div class="nav-inner">
-      <div class="logo">LOP OBFUSCATOR</div>
-      <div class="nav-links">
-        <a href="#tool">Tool</a>
-        <a href="#updates">Updates</a>
-        <a href="#about">About</a>
-        <span class="ver-pill" id="navVersion">v1.0.0</span>
-      </div>
-    </div>
-  </nav>
-
-  <div class="wrap">
-    <header class="hero">
-      <div>
-        <h1>Protect Lua.<br /><span>Ship with confidence.</span></h1>
-        <p>LOP Obfuscator is a professional, browser-based Lua protector. Pack and harden your source locally — nothing is uploaded.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="#tool">Open Obfuscator</a>
-          <a class="btn btn-secondary" href="#updates">View Updates</a>
-        </div>
-      </div>
-      <div class="hero-card">
-        <div class="row"><span class="k">Product</span><span class="v">LOP Obfuscator</span></div>
-        <div class="row"><span class="k">Version</span><span class="v" id="heroVersion">1.0.0</span></div>
-        <div class="row"><span class="k">Build</span><span class="v" id="heroBuild">2026.09.24</span></div>
-        <div class="row"><span class="k">Mode</span><span class="v">Local · Client-side</span></div>
-        <div class="row"><span class="k">Status</span><span class="v" style="color:var(--ok)">Operational</span></div>
-      </div>
-    </header>
-
-    <section id="tool">
-      <h2>Obfuscator</h2>
-      <p class="sub">Paste source → choose protection layers → export protected Lua.</p>
-      <div class="panel">
-        <div class="bar"><span>Protection layers</span><span>LOP engine</span></div>
-        <div class="options" id="options"></div>
-        <div class="actions">
-          <button class="btn btn-primary" id="btnRun">Obfuscate</button>
-          <button class="btn btn-secondary" id="btnCopy">Copy</button>
-          <button class="btn btn-secondary" id="btnDownload">Download .lua</button>
-          <button class="btn btn-secondary" id="btnAllOn">All on</button>
-          <button class="btn btn-secondary" id="btnAllOff">All off</button>
-          <button class="btn btn-secondary" id="btnClear">Clear</button>
-        </div>
-      </div>
-      <div class="grid editors">
-        <div class="panel">
-          <div class="bar"><span>Input</span><span id="inStats">0 chars</span></div>
-          <textarea id="input" placeholder="-- paste Lua source" spellcheck="false"></textarea>
-        </div>
-        <div class="panel">
-          <div class="bar"><span>Output</span><span id="outStats">0 chars</span></div>
-          <textarea id="output" placeholder="-- protected output" spellcheck="false"></textarea>
-        </div>
-      </div>
-      <div class="status" id="status">Ready.</div>
-    </section>
-
-    <section id="updates">
-      <h2>Update logs</h2>
-      <p class="sub">Official product changelog. Version is always shown in the header.</p>
-      <div id="updateList"></div>
-    </section>
-
-    <section id="about">
-      <h2>About</h2>
-      <p class="sub">LOP focuses on obfuscation only. Protection runs entirely in your browser for privacy.</p>
-    </section>
-
-    <footer>
-      <span>© LOP Obfuscator</span>
-      <span id="footVersion">v1.0.0</span>
-    </footer>
-  </div>
-
-  <script>
-    const PRODUCT = {
-      name: "LOP Obfuscator",
-      version: "1.0.0",
-      build: "2026.09.24",
-      updates: [
-        {
-          version: "1.0.0",
-          date: "2026-09-24",
-          added: [
-            "Initial public release",
-            "XOR + Base64 loader pack",
-            "String encryption, minify, junk, rename options",
-            "Local-only processing (no upload)",
-            "Version badge + update logs page section"
-          ],
-          changed: [],
-          fixed: [],
-          removed: []
-        }
-      ]
-    };
-
-    document.getElementById("navVersion").textContent = "v" + PRODUCT.version;
-    document.getElementById("heroVersion").textContent = PRODUCT.version;
-    document.getElementById("heroBuild").textContent = PRODUCT.build;
-    document.getElementById("footVersion").textContent = "v" + PRODUCT.version;
-
-    const list = document.getElementById("updateList");
-    PRODUCT.updates.forEach((u) => {
-      const el = document.createElement("article");
-      el.className = "update";
-      const block = (title, arr) =>
-        arr && arr.length
-          ? `<div style="margin-top:8px"><strong style="color:var(--text)">${title}</strong><ul>${arr.map((x) => `<li>${x}</li>`).join("")}</ul></div>`
-          : "";
-      el.innerHTML = `
-        <div class="top">
-          <span class="tag">v${u.version}</span>
-          <span class="date">${u.date}</span>
-        </div>
-        ${block("[+] Added", u.added)}
-        ${block("[*] Changed", u.changed)}
-        ${block("[F] Fixed", u.fixed)}
-        ${block("[-] Removed", u.removed)}`;
-      list.appendChild(el);
-    });
-
-    const OPTS = [
-      { id: "stripComments", title: "Strip comments", desc: "Remove -- comments", on: true },
-      { id: "minify", title: "Minify", desc: "Collapse whitespace", on: true },
-      { id: "stringEnc", title: "String encryption", desc: "Runtime-decoded strings", on: true },
-      { id: "varRename", title: "Variable renaming", desc: "Locals → unreadable names", on: true },
-      { id: "hexNames", title: "Hex identifiers", desc: "_0x style names", on: true },
-      { id: "junk", title: "Junk injection", desc: "Decoy variables & dead code", on: true },
-      { id: "controlFlow", title: "Control-flow", desc: "Opaque predicates", on: false },
-      { id: "xorPack", title: "XOR loader pack", desc: "Base64 + XOR wrapper", on: true },
-      { id: "watermark", title: "Vasper watermark", desc: "Big ASCII banner: OBFUSCATED BY VASPER", on: true }
-    ];
-    const flags = {};
-    const optionsEl = document.getElementById("options");
-    OPTS.forEach((o) => {
-      flags[o.id] = o.on;
-      const row = document.createElement("div");
-      row.className = "opt";
-      row.innerHTML = `<div><h3>${o.title}</h3><p>${o.desc}</p></div>
-        <label class="switch"><input type="checkbox" id="opt_${o.id}" ${o.on ? "checked" : ""}/><span class="slider"></span></label>`;
-      optionsEl.appendChild(row);
-      row.querySelector("input").addEventListener("change", (e) => { flags[o.id] = e.target.checked; });
-    });
-
-    const input = document.getElementById("input");
-    const output = document.getElementById("output");
-    const status = document.getElementById("status");
-    function setStatus(msg, type) {
-      status.textContent = msg;
-      status.className = "status" + (type ? " " + type : "");
-    }
-    function updateStats() {
-      document.getElementById("inStats").textContent = input.value.length + " chars";
-      document.getElementById("outStats").textContent = output.value.length + " chars";
-    }
-    input.addEventListener("input", updateStats);
-
-    const RESERVED = new Set(["and","break","do","else","elseif","end","false","for","function","goto","if","in","local","nil","not","or","repeat","return","then","true","until","while","game","workspace","script","shared","self","pairs","ipairs","next","pcall","type","tostring","tonumber","print","warn","error","table","string","math","bit32","task","require","loadstring","assert"]);
-
-    function stripComments(src) {
-      src = src.replace(/--\[\[.*?\]\]/gs, "");
-      return src.split("\n").filter((l) => !l.trim().startsWith("--")).join("\n");
-    }
-    function minify(src) {
-      return src.replace(/\r\n/g, "\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
-    }
-    function renameLocals(src) {
-      const names = new Map();
-      let i = 0;
-      const mk = () => flags.hexNames ? `_0x${(i++).toString(16)}${(Math.random()*4095|0).toString(16)}` : `_${(i++).toString(36)}`;
-      src = src.replace(/\blocal\s+([A-Za-z_][A-Za-z0-9_]*)\b/g, (m, n) => {
-        if (RESERVED.has(n)) return m;
-        if (!names.has(n)) names.set(n, mk());
-        return "local " + names.get(n);
-      });
-      src = src.replace(/\bfunction\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(/g, (m, n) => {
-        if (RESERVED.has(n)) return m;
-        if (!names.has(n)) names.set(n, mk());
-        return "function " + names.get(n) + "(";
-      });
-      [...names.keys()].sort((a,b)=>b.length-a.length).forEach((n) => {
-        src = src.replace(new RegExp("\\b"+n+"\\b","g"), names.get(n));
-      });
-      return src;
-    }
-    function encryptStrings(src) {
-      const encoded = [];
-      function store(str) {
-        const bytes = new TextEncoder().encode(str);
-        let bin = "";
-        bytes.forEach((b) => (bin += String.fromCharCode(b ^ 0x5a)));
-        encoded.push(btoa(bin));
-        return `_S(${encoded.length-1})`;
-      }
-      src = src.replace(/"(?:\\.|[^"\\])*"/g, (m) => {
-        if (m.length < 3 || m.length > 100) return m;
-        try {
-          const inner = JSON.parse(m);
-          if (typeof inner !== "string") return m;
-          return store(inner);
-        } catch { return m; }
-      });
-      if (!encoded.length) return src;
-      const table = encoded.map((s) => `"${s}"`).join(",");
-      return `local function _S(i)
-	local _t={${table}}
-	local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-	local data=string.gsub(_t[i+1] or '','[^'..b..'=]','')
-	local raw=(data:gsub('.',function(x)
-		if x=='=' then return '' end
-		local r,f='',(b:find(x)-1)
-		for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
-		return r
-	end):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)
-		if #x~=8 then return '' end
-		local c=0
-		for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
-		return string.char(c)
-	end))
-	local out={}
-	for j=1,#raw do out[j]=string.char(bit32.bxor(string.byte(raw,j),0x5A)) end
-	return table.concat(out)
-end
-` + src;
-    }
-    function junkCode(src) {
-      return `local _j1=0
-local _j2=string.char(108,111,112)
-local _j3=function(x) return x end
-do local _d=0 if _d~=_d then _j1=1 end end
-` + src;
-    }
-    function controlFlow(src) {
-      return `local _cf=(function() local a=1+1 if a*a==4 and a~=3 then return true end return false end)()
-if not _cf then return end
-` + src;
-    }
-    function xorPack(src) {
-      const data = Array.from(new TextEncoder().encode(src));
-      const key = Array.from({ length: 32 }, () => 1 + (Math.random() * 255) | 0);
-      const xored = data.map((b, i) => b ^ key[i % key.length]);
-      const toB64 = (arr) => { let bin = ""; arr.forEach((b) => (bin += String.fromCharCode(b))); return btoa(bin); };
-      const payload = toB64(xored);
-      const keyB64 = toB64(key);
-      const chunks = [];
-      for (let i = 0; i < payload.length; i += 100) chunks.push(`"${payload.slice(i, i + 100)}"`);
-      const mark = "";
-      return `${mark}local bit32=bit32
-local function _B64(data)
-	local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-	data=string.gsub(data,'[^'..b..'=]','')
-	return (data:gsub('.',function(x)
-		if x=='=' then return '' end
-		local r,f='',(b:find(x)-1)
-		for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
-		return r
-	end):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)
-		if #x~=8 then return '' end
-		local c=0
-		for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
-		return string.char(c)
-	end))
-end
-local function _XOR(data,key)
-	local out={}
-	local kl=#key
-	for i=1,#data do out[i]=string.char(bit32.bxor(string.byte(data,i),string.byte(key,((i-1)%kl)+1))) end
-	return table.concat(out)
-end
-local _K=_B64("${keyB64}")
-local _P=table.concat({
-${chunks.join(",\n")}
-})
-local _src=_XOR(_B64(_P),_K)
-local _fn,_err=loadstring(_src)
-if not _fn then warn("[LOP] load failed: "..tostring(_err)) return end
-return _fn()
-`;
-    }
-
-
-    function injectWatermark(src) {
-      if (!flags.watermark) return src;
-      const banner = [
-        "-- ============================================================",
-        "--",
-        "--   ##     ##    ###     ######  ########  ######## ########",
-        "--   ##     ##   ## ##   ##    ## ##     ## ##       ##     ##",
-        "--   ##     ##  ##   ##  ##       ##     ## ##       ##     ##",
-        "--   ##     ## ##     ##  ######  ########  ######   ########",
-        "--    ##   ##  #########       ## ##        ##       ##   ##",
-        "--     ## ##   ##     ## ##    ## ##        ##       ##    ##",
-        "--      ###    ##     ##  ######  ##        ######## ##     ##",
-        "--",
-        "--              OBFUSCATED BY VASPER",
-        "--              Powered by LOP Obfuscator v" + PRODUCT.version,
-        "--              Do not redistribute clear source",
-        "--",
-        "-- ============================================================",
-        ""
-      ].join("\n");
-      return banner + "\n" + src;
-    }
-
-    function obfuscate() {
-      let src = input.value;
-      if (!src.trim()) return setStatus("Paste source first.", "err");
-      try {
-        if (flags.stripComments) src = stripComments(src);
-        if (flags.minify) src = minify(src);
-        if (flags.stringEnc) src = encryptStrings(src);
-        if (flags.varRename) src = renameLocals(src);
-        if (flags.controlFlow) src = controlFlow(src);
-        if (flags.junk) src = junkCode(src);
-        if (flags.minify) src = minify(src);
-        if (flags.xorPack) src = xorPack(src);
-        src = injectWatermark(src);
-        output.value = src;
-        setStatus("Protected · v" + PRODUCT.version + " · " + src.length + " chars", "ok");
-        updateStats();
-      } catch (e) {
-        setStatus("Error: " + e.message, "err");
-      }
-    }
-
-    document.getElementById("btnRun").onclick = obfuscate;
-    document.getElementById("btnCopy").onclick = async () => {
-      if (!output.value) return setStatus("Nothing to copy.", "err");
-      try { await navigator.clipboard.writeText(output.value); setStatus("Copied.", "ok"); }
-      catch { output.select(); document.execCommand("copy"); setStatus("Copied.", "ok"); }
-    };
-    document.getElementById("btnDownload").onclick = () => {
-      if (!output.value) return setStatus("Nothing to download.", "err");
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([output.value], { type: "text/plain" }));
-      a.download = "lop_protected.lua"; a.click(); setStatus("Download started.", "ok");
-    };
-    document.getElementById("btnClear").onclick = () => { input.value=""; output.value=""; updateStats(); setStatus("Cleared."); };
-    document.getElementById("btnAllOn").onclick = () => {
-      OPTS.forEach((o)=>{ flags[o.id]=true; const el=document.getElementById("opt_"+o.id); if(el) el.checked=true; });
-      setStatus("All layers on.");
-    };
-    document.getElementById("btnAllOff").onclick = () => {
-      OPTS.forEach((o)=>{ flags[o.id]=false; const el=document.getElementById("opt_"+o.id); if(el) el.checked=false; });
-      setStatus("All layers off.");
-    };
-    updateStats();
   </script>
 </body>
 </html>
