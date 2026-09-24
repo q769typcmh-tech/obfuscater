@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LOP Obfuscator</title>
-  <meta name="description" content="LOP Obfuscator — professional Lua protection. Local, fast." />
+  <meta name="description" content="LOP Obfuscator — professional Lua protection" />
   <style>
     :root {
-      --bg: #06070c;
-      --panel: #0c0f18;
-      --card: #121722;
-      --line: #1c2333;
+      --bg: #05060a;
+      --panel: #0b0e16;
+      --card: #111622;
+      --line: #1b2232;
       --text: #eef1f8;
       --muted: #8b93a7;
       --gold: #e8c56a;
@@ -18,7 +18,7 @@
       --accent: #8b7cf7;
       --ok: #3ecf8e;
       --danger: #ff5c7a;
-      --mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+      --mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
       --sans: "Segoe UI", system-ui, -apple-system, sans-serif;
     }
     * { box-sizing: border-box; }
@@ -28,318 +28,136 @@
       font-family: var(--sans);
       color: var(--text);
       background:
-        radial-gradient(1000px 500px at 10% -15%, rgba(232,197,106,0.14), transparent 55%),
-        radial-gradient(800px 420px at 100% 0%, rgba(139,124,247,0.12), transparent 50%),
+        radial-gradient(900px 480px at 12% -12%, rgba(232,197,106,.13), transparent 55%),
+        radial-gradient(700px 400px at 100% 0%, rgba(139,124,247,.11), transparent 48%),
         var(--bg);
     }
     a { color: var(--gold); text-decoration: none; }
     .nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(12px);
-      background: rgba(6, 7, 12, 0.85);
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(5,6,10,.88);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--line);
     }
     .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      max-width: 1120px; margin: 0 auto; padding: 14px 18px;
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
     }
     .logo {
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      font-size: 0.95rem;
+      font-weight: 800; letter-spacing: .1em; font-size: .92rem;
       background: linear-gradient(90deg, var(--gold), #fff1b8);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .nav-links {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .nav-links a { color: var(--muted); font-size: 0.9rem; }
+    .nav-links { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+    .nav-links a { color: var(--muted); font-size: .9rem; }
     .nav-links a:hover { color: var(--text); }
-    .ver-pill {
-      border: 1px solid rgba(232, 197, 106, 0.35);
+    .pill {
+      border: 1px solid rgba(232,197,106,.35);
+      background: rgba(232,197,106,.08);
       color: var(--gold);
-      background: rgba(232, 197, 106, 0.08);
-      border-radius: 999px;
-      padding: 5px 10px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
+      border-radius: 999px; padding: 5px 11px;
+      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
     }
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 28px 18px 64px;
-    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 28px 18px 72px; }
     .hero {
-      padding: 48px 0 28px;
-      display: grid;
-      gap: 18px;
+      display: grid; gap: 20px; padding: 40px 0 20px;
     }
     @media (min-width: 900px) {
-      .hero {
-        grid-template-columns: 1.2fr 0.8fr;
-        align-items: center;
-      }
+      .hero { grid-template-columns: 1.25fr .75fr; align-items: center; }
     }
     .hero h1 {
-      margin: 0;
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
+      margin: 0; font-size: clamp(2rem, 4.2vw, 3.1rem);
+      line-height: 1.08; letter-spacing: -.03em;
     }
-    .hero h1 span {
+    .hero h1 em {
+      font-style: normal;
       background: linear-gradient(90deg, var(--gold), var(--accent));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .hero p {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 1.05rem;
-      line-height: 1.6;
-      max-width: 34em;
+    .hero p { margin: 12px 0 0; color: var(--muted); line-height: 1.6; max-width: 36em; }
+    .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .card {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 18px; padding: 18px 20px;
     }
-    .hero-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 20px;
+    .card .r {
+      display: flex; justify-content: space-between; gap: 10px;
+      padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .9rem;
     }
-    .hero-card .row {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--line);
-      font-size: 0.92rem;
-    }
-    .hero-card .row:last-child { border-bottom: 0; }
-    .hero-card .k { color: var(--muted); }
-    .hero-card .v { color: var(--text); font-weight: 600; }
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
-    }
+    .card .r:last-child { border-bottom: 0; }
+    .card .k { color: var(--muted); }
+    .card .v { font-weight: 600; }
     .btn {
-      border: 0;
-      border-radius: 12px;
-      padding: 12px 18px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.92rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-family: inherit;
+      border: 0; border-radius: 12px; padding: 11px 16px;
+      font-weight: 700; font-size: .9rem; cursor: pointer; font-family: inherit;
+      display: inline-flex; align-items: center; justify-content: center;
     }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--gold2), var(--gold));
-      color: #1a1405;
-    }
-    .btn-secondary {
-      background: #151a28;
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-    .btn:hover { filter: brightness(1.06); }
-    .btn.active {
-      outline: 2px solid var(--gold);
-      outline-offset: 1px;
-    }
-    section { margin-top: 36px; }
-    section h2 {
-      margin: 0 0 8px;
-      font-size: 1.25rem;
-    }
-    section .sub {
-      color: var(--muted);
-      margin: 0 0 16px;
-      font-size: 0.95rem;
-    }
+    .btn-p { background: linear-gradient(135deg, var(--gold2), var(--gold)); color: #1a1405; }
+    .btn-s { background: #141a28; color: var(--text); border: 1px solid var(--line); }
+    .btn:hover { filter: brightness(1.07); }
+    .btn.active { outline: 2px solid var(--gold); outline-offset: 1px; }
+    section { margin-top: 34px; }
+    section h2 { margin: 0 0 6px; font-size: 1.22rem; }
+    section .sub { margin: 0 0 14px; color: var(--muted); font-size: .94rem; }
     .panel {
-      background: rgba(12, 15, 24, 0.95);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      overflow: hidden;
-      margin-bottom: 14px;
+      background: rgba(11,14,22,.96); border: 1px solid var(--line);
+      border-radius: 16px; overflow: hidden; margin-bottom: 14px;
     }
     .bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 11px 16px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(0, 0, 0, 0.22);
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 11px 16px; border-bottom: 1px solid var(--line);
+      background: rgba(0,0,0,.22); color: var(--muted);
+      font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
     }
-    textarea {
-      width: 100%;
-      min-height: 260px;
-      border: 0;
-      outline: none;
-      resize: vertical;
-      padding: 16px;
-      background: transparent;
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 12.5px;
-      line-height: 1.5;
+    .presets { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px 0; }
+    .presets .btn { padding: 8px 13px; font-size: .8rem; }
+    .opts {
+      display: grid; grid-template-columns: 1fr; gap: 10px; padding: 14px 16px;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    @media (min-width: 960px) {
-      .grid.editors { grid-template-columns: 1fr 1fr; }
-    }
-    .preset-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 14px 16px 0;
-    }
-    .preset-bar .btn {
-      padding: 9px 14px;
-      font-size: 0.82rem;
-    }
-    .options {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      padding: 16px;
-    }
-    @media (min-width: 800px) {
-      .options { grid-template-columns: 1fr 1fr; }
-    }
+    @media (min-width: 800px) { .opts { grid-template-columns: 1fr 1fr; } }
     .opt {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 14px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: var(--card);
+      display: flex; justify-content: space-between; gap: 12px;
+      padding: 12px 14px; border: 1px solid var(--line);
+      border-radius: 12px; background: var(--card);
     }
-    .opt h3 {
-      margin: 0;
-      font-size: 0.9rem;
+    .opt h3 { margin: 0; font-size: .88rem; }
+    .opt p { margin: 4px 0 0; font-size: .76rem; color: var(--muted); line-height: 1.35; }
+    .sw { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+    .sw input { opacity: 0; width: 0; height: 0; }
+    .sl {
+      position: absolute; inset: 0; cursor: pointer; border-radius: 999px;
+      background: #2a3145; transition: .2s;
     }
-    .opt p {
-      margin: 4px 0 0;
-      font-size: 0.78rem;
-      color: var(--muted);
-      line-height: 1.35;
+    .sl:before {
+      content: ""; position: absolute; width: 18px; height: 18px;
+      left: 3px; top: 3px; border-radius: 50%; background: #c5d0e6; transition: .2s;
     }
-    .switch {
-      position: relative;
-      width: 46px;
-      height: 26px;
-      flex-shrink: 0;
+    .sw input:checked + .sl { background: linear-gradient(135deg, var(--gold2), var(--gold)); }
+    .sw input:checked + .sl:before { transform: translateX(20px); background: #1a1405; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 16px; }
+    .editors { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 960px) { .editors { grid-template-columns: 1fr 1fr; } }
+    textarea {
+      width: 100%; min-height: 280px; border: 0; outline: none; resize: vertical;
+      padding: 16px; background: transparent; color: var(--text);
+      font-family: var(--mono); font-size: 12.5px; line-height: 1.5;
     }
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .slider {
-      position: absolute;
-      inset: 0;
-      cursor: pointer;
-      background: #2a3145;
-      border-radius: 999px;
-      transition: 0.2s;
-    }
-    .slider:before {
-      content: "";
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      left: 3px;
-      top: 3px;
-      background: #c5d0e6;
-      border-radius: 50%;
-      transition: 0.2s;
-    }
-    .switch input:checked + .slider {
-      background: linear-gradient(135deg, var(--gold2), var(--gold));
-    }
-    .switch input:checked + .slider:before {
-      transform: translateX(20px);
-      background: #1a1405;
-    }
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 0 16px 16px;
-    }
-    .status {
-      min-height: 22px;
-      margin: 10px 2px 0;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
+    .status { min-height: 22px; margin: 8px 2px 0; font-size: .9rem; color: var(--muted); }
     .status.ok { color: var(--ok); }
     .status.err { color: var(--danger); }
     .update {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 16px 18px;
-      margin-bottom: 12px;
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 14px; padding: 16px 18px; margin-bottom: 12px;
     }
-    .update .top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-    .update .tag {
-      color: var(--gold);
-      font-weight: 700;
-      font-size: 0.85rem;
-    }
-    .update .date {
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-    .update ul {
-      margin: 8px 0 0;
-      padding-left: 18px;
-      color: var(--muted);
-    }
+    .update .top { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .update .tag { color: var(--gold); font-weight: 700; font-size: .85rem; }
+    .update .date { color: var(--muted); font-size: .85rem; }
+    .update ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); }
     .update li { margin: 4px 0; }
     footer {
-      margin-top: 48px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 0.85rem;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line);
+      color: var(--muted); font-size: .84rem;
+      display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
     }
   </style>
 </head>
@@ -351,7 +169,7 @@
         <a href="#tool">Tool</a>
         <a href="#updates">Updates</a>
         <a href="#about">About</a>
-        <span class="ver-pill" id="navVersion">v1.2.0</span>
+        <span class="pill" id="navVer">v1.4.0</span>
       </div>
     </div>
   </nav>
@@ -359,489 +177,376 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <h1>Protect Lua.<br /><span>Ship with confidence.</span></h1>
-        <p>LOP Obfuscator is a professional, browser-based Lua protector. Pack and harden your source locally — nothing is uploaded.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="#tool">Open Obfuscator</a>
-          <a class="btn btn-secondary" href="#updates">View Updates</a>
+        <h1>Protect Lua.<br /><em>Ship harder packs.</em></h1>
+        <p>Professional browser-side Lua obfuscator. Presets, string crypto, rename, junk, control-flow, and a commercial-style <code style="color:var(--gold)">return(function(...)end)(...)</code> loader. Nothing uploads.</p>
+        <div class="cta">
+          <a class="btn btn-p" href="#tool">Open Obfuscator</a>
+          <a class="btn btn-s" href="#updates">Changelog</a>
         </div>
       </div>
-      <div class="hero-card">
-        <div class="row"><span class="k">Product</span><span class="v">LOP Obfuscator</span></div>
-        <div class="row"><span class="k">Version</span><span class="v" id="heroVersion">1.2.0</span></div>
-        <div class="row"><span class="k">Build</span><span class="v" id="heroBuild">2026.09.24</span></div>
-        <div class="row"><span class="k">Mode</span><span class="v">Local · Client-side</span></div>
-        <div class="row"><span class="k">Status</span><span class="v" style="color:var(--ok)">Operational</span></div>
+      <div class="card">
+        <div class="r"><span class="k">Product</span><span class="v">LOP Obfuscator</span></div>
+        <div class="r"><span class="k">Version</span><span class="v" id="heroVer">1.4.0</span></div>
+        <div class="r"><span class="k">Build</span><span class="v">2026.09.24</span></div>
+        <div class="r"><span class="k">Mode</span><span class="v">Local · Client-side</span></div>
+        <div class="r"><span class="k">Status</span><span class="v" style="color:var(--ok)">Operational</span></div>
       </div>
     </header>
 
     <section id="tool">
       <h2>Obfuscator</h2>
-      <p class="sub">Paste source → choose a preset or layers → export protected Lua.</p>
+      <p class="sub">Pick a preset or toggle layers. Output uses a pro-style return loader when pack is on.</p>
 
       <div class="panel">
-        <div class="bar"><span>Protection layers</span><span>LOP engine</span></div>
-        <div class="preset-bar" id="presets">
-          <button type="button" class="btn btn-secondary" data-preset="light">Light</button>
-          <button type="button" class="btn btn-secondary" data-preset="medium">Medium</button>
-          <button type="button" class="btn btn-secondary" data-preset="heavy">Heavy</button>
-          <button type="button" class="btn btn-secondary" data-preset="maximum">Maximum</button>
+        <div class="bar"><span>Engine</span><span>LOP v1.4</span></div>
+        <div class="presets" id="presets">
+          <button type="button" class="btn btn-s" data-p="light">Light</button>
+          <button type="button" class="btn btn-s" data-p="medium">Medium</button>
+          <button type="button" class="btn btn-s" data-p="heavy">Heavy</button>
+          <button type="button" class="btn btn-s" data-p="maximum">Maximum</button>
         </div>
-        <div class="options" id="options"></div>
+        <div class="opts" id="opts"></div>
         <div class="actions">
-          <button type="button" class="btn btn-primary" id="btnRun">Obfuscate</button>
-          <button type="button" class="btn btn-secondary" id="btnCopy">Copy</button>
-          <button type="button" class="btn btn-secondary" id="btnDownload">Download .lua</button>
-          <button type="button" class="btn btn-secondary" id="btnAllOn">All on</button>
-          <button type="button" class="btn btn-secondary" id="btnAllOff">All off</button>
-          <button type="button" class="btn btn-secondary" id="btnClear">Clear</button>
+          <button type="button" class="btn btn-p" id="run">Obfuscate</button>
+          <button type="button" class="btn btn-s" id="copy">Copy</button>
+          <button type="button" class="btn btn-s" id="dl">Download .lua</button>
+          <button type="button" class="btn btn-s" id="allOn">All on</button>
+          <button type="button" class="btn btn-s" id="allOff">All off</button>
+          <button type="button" class="btn btn-s" id="clear">Clear</button>
         </div>
       </div>
 
-      <div class="grid editors">
+      <div class="editors">
         <div class="panel">
-          <div class="bar"><span>Input</span><span id="inStats">0 chars</span></div>
-          <textarea id="input" placeholder="-- paste Lua source" spellcheck="false"></textarea>
+          <div class="bar"><span>Input</span><span id="inN">0 chars</span></div>
+          <textarea id="in" placeholder="-- paste Lua source" spellcheck="false"></textarea>
         </div>
         <div class="panel">
-          <div class="bar"><span>Output</span><span id="outStats">0 chars</span></div>
-          <textarea id="output" placeholder="-- protected output" spellcheck="false"></textarea>
+          <div class="bar"><span>Output</span><span id="outN">0 chars</span></div>
+          <textarea id="out" placeholder="-- protected output" spellcheck="false"></textarea>
         </div>
       </div>
-      <div class="status" id="status">Ready.</div>
+      <div class="status" id="st">Ready.</div>
     </section>
 
     <section id="updates">
       <h2>Update logs</h2>
-      <p class="sub">Official product changelog. One version — always shown in the header.</p>
-      <div id="updateList"></div>
+      <p class="sub">Official changelog.</p>
+      <div id="logs"></div>
     </section>
 
     <section id="about">
       <h2>About</h2>
-      <p class="sub">LOP focuses on obfuscation only. Protection runs entirely in your browser for privacy.</p>
+      <p class="sub">LOP is obfuscation-only. Runs fully in your browser. Vasper watermark optional.</p>
     </section>
 
     <footer>
       <span>© LOP Obfuscator</span>
-      <span id="footVersion">v1.2.0</span>
+      <span id="footVer">v1.4.0</span>
     </footer>
   </div>
 
   <script>
-    const PRODUCT = {
-      name: "LOP Obfuscator",
-      version: "1.2.0",
-      build: "2026.09.24",
-      updates: [
-        {
-          version: "1.2.0",
-          date: "2026-09-24",
-          added: [
-            "Full page rebuild (clean HTML)",
-            "Single consistent version everywhere (no double site)",
-            "Fixed CSS text leaking onto the page"
-          ],
-          changed: [
-            "Presets + engine stable on one page",
-            "Vasper watermark kept"
-          ],
-          fixed: [
-            "Broken layout / raw CSS visible on GitHub Pages",
-            "Mixed v1.0.0 / v1.1.0 badges"
-          ],
-          removed: []
-        },
-        {
-          version: "1.1.0",
-          date: "2026-09-24",
-          added: [
-            "Presets: Light / Medium / Heavy / Maximum",
-            "Vasper big ASCII watermark",
-            "Output size stats"
-          ],
-          changed: ["Default preset Medium"],
-          fixed: ["Watermark on packed output"],
-          removed: []
-        },
-        {
-          version: "1.0.0",
-          date: "2026-09-24",
-          added: [
-            "Initial public release",
-            "XOR + Base64 pack",
-            "String encryption, minify, junk, rename",
-            "GitHub Pages launch"
-          ],
-          changed: [],
-          fixed: [],
-          removed: []
-        }
-      ]
-    };
-
-    document.getElementById("navVersion").textContent = "v" + PRODUCT.version;
-    document.getElementById("heroVersion").textContent = PRODUCT.version;
-    document.getElementById("heroBuild").textContent = PRODUCT.build;
-    document.getElementById("footVersion").textContent = "v" + PRODUCT.version;
-
-    const list = document.getElementById("updateList");
-    PRODUCT.updates.forEach(function (u) {
-      const el = document.createElement("article");
-      el.className = "update";
-      function block(title, arr) {
-        if (!arr || !arr.length) return "";
-        return (
-          '<div style="margin-top:8px"><strong style="color:var(--text)">' +
-          title +
-          "</strong><ul>" +
-          arr.map(function (x) { return "<li>" + x + "</li>"; }).join("") +
-          "</ul></div>"
-        );
+(function () {
+  const PRODUCT = {
+    version: "1.4.0",
+    build: "2026.09.24",
+    updates: [
+      {
+        v: "1.4.0", d: "2026-09-24",
+        a: [
+          "Full engine + UI polish pass",
+          "Stronger rename + safer reserved-word handling",
+          "Improved string encryption coverage",
+          "Pro return(function(...)end)(...) pack refined",
+          "Better status / size metrics"
+        ],
+        c: ["Presets retuned", "Watermark pipeline cleaned"],
+        f: ["Stable single-page build (no CSS leak)"]
+      },
+      {
+        v: "1.3.0", d: "2026-09-24",
+        a: ["return(function) commercial-style loader", "Randomized pack locals"],
+        c: ["XOR pack shape"], f: []
+      },
+      {
+        v: "1.2.0", d: "2026-09-24",
+        a: ["Clean rebuild"], c: [], f: ["CSS leak", "mixed versions"]
+      },
+      {
+        v: "1.1.0", d: "2026-09-24",
+        a: ["Presets", "Vasper watermark", "Size stats"], c: [], f: []
+      },
+      {
+        v: "1.0.0", d: "2026-09-24",
+        a: ["Initial release", "GitHub Pages"], c: [], f: []
       }
-      el.innerHTML =
-        '<div class="top"><span class="tag">v' +
-        u.version +
-        '</span><span class="date">' +
-        u.date +
-        "</span></div>" +
-        block("[+] Added", u.added) +
-        block("[*] Changed", u.changed) +
-        block("[F] Fixed", u.fixed) +
-        block("[-] Removed", u.removed);
-      list.appendChild(el);
-    });
+    ]
+  };
 
-    const OPTS = [
-      { id: "stripComments", title: "Strip comments", desc: "Remove -- comments", on: true },
-      { id: "minify", title: "Minify", desc: "Collapse whitespace", on: true },
-      { id: "stringEnc", title: "String encryption", desc: "Runtime-decoded strings", on: true },
-      { id: "varRename", title: "Variable renaming", desc: "Locals to unreadable names", on: true },
-      { id: "hexNames", title: "Hex identifiers", desc: "_0x style names", on: true },
-      { id: "junk", title: "Junk injection", desc: "Decoy variables and dead code", on: true },
-      { id: "controlFlow", title: "Control-flow", desc: "Opaque predicates", on: false },
-      { id: "xorPack", title: "XOR loader pack", desc: "Base64 + XOR wrapper", on: true },
-      { id: "watermark", title: "Vasper watermark", desc: "Big ASCII: OBFUSCATED BY VASPER", on: true }
-    ];
+  document.getElementById("navVer").textContent = "v" + PRODUCT.version;
+  document.getElementById("heroVer").textContent = PRODUCT.version;
+  document.getElementById("footVer").textContent = "v" + PRODUCT.version;
 
-    const flags = {};
-    const optionsEl = document.getElementById("options");
+  const logs = document.getElementById("logs");
+  PRODUCT.updates.forEach(function (u) {
+    const el = document.createElement("article");
+    el.className = "update";
+    function blk(t, arr) {
+      if (!arr || !arr.length) return "";
+      return "<div style='margin-top:8px'><strong style='color:var(--text)'>" + t + "</strong><ul>" +
+        arr.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul></div>";
+    }
+    el.innerHTML = "<div class='top'><span class='tag'>v" + u.v + "</span><span class='date'>" + u.d +
+      "</span></div>" + blk("[+] Added", u.a) + blk("[*] Changed", u.c) + blk("[F] Fixed", u.f);
+    logs.appendChild(el);
+  });
+
+  const OPTS = [
+    { id: "stripComments", t: "Strip comments", d: "Remove -- and --[[ ]]", on: true },
+    { id: "minify", t: "Minify", d: "Collapse whitespace", on: true },
+    { id: "stringEnc", t: "String encryption", d: "Encode string literals", on: true },
+    { id: "varRename", t: "Variable renaming", d: "Locals → opaque names", on: true },
+    { id: "hexNames", t: "Hex identifiers", d: "_0x style names", on: true },
+    { id: "junk", t: "Junk code", d: "Decoy locals / dead branches", on: true },
+    { id: "controlFlow", t: "Control-flow", d: "Opaque predicates", on: false },
+    { id: "xorPack", t: "Return pack", d: "return(function(...)end)(...)", on: true },
+    { id: "watermark", t: "Vasper watermark", d: "Big ASCII banner", on: true }
+  ];
+  const F = {};
+  const optsEl = document.getElementById("opts");
+  OPTS.forEach(function (o) {
+    F[o.id] = o.on;
+    const row = document.createElement("div");
+    row.className = "opt";
+    row.innerHTML = "<div><h3>" + o.t + "</h3><p>" + o.d + "</p></div>" +
+      "<label class='sw'><input type='checkbox' id='o_" + o.id + "'" + (o.on ? " checked" : "") +
+      "/><span class='sl'></span></label>";
+    optsEl.appendChild(row);
+    row.querySelector("input").onchange = function (e) { F[o.id] = e.target.checked; };
+  });
+
+  const PRESETS = {
+    light: { stripComments:1, minify:1, stringEnc:0, varRename:1, hexNames:0, junk:0, controlFlow:0, xorPack:0, watermark:1 },
+    medium: { stripComments:1, minify:1, stringEnc:1, varRename:1, hexNames:1, junk:1, controlFlow:0, xorPack:1, watermark:1 },
+    heavy: { stripComments:1, minify:1, stringEnc:1, varRename:1, hexNames:1, junk:1, controlFlow:1, xorPack:1, watermark:1 },
+    maximum: { stripComments:1, minify:1, stringEnc:1, varRename:1, hexNames:1, junk:1, controlFlow:1, xorPack:1, watermark:1 }
+  };
+
+  function setPreset(name) {
+    const p = PRESETS[name];
+    if (!p) return;
     OPTS.forEach(function (o) {
-      flags[o.id] = o.on;
-      const row = document.createElement("div");
-      row.className = "opt";
-      row.innerHTML =
-        "<div><h3>" +
-        o.title +
-        "</h3><p>" +
-        o.desc +
-        '</p></div><label class="switch"><input type="checkbox" id="opt_' +
-        o.id +
-        '"' +
-        (o.on ? " checked" : "") +
-        '/><span class="slider"></span></label>';
-      optionsEl.appendChild(row);
-      row.querySelector("input").addEventListener("change", function (e) {
-        flags[o.id] = e.target.checked;
-      });
+      F[o.id] = !!p[o.id];
+      const el = document.getElementById("o_" + o.id);
+      if (el) el.checked = F[o.id];
     });
-
-    const PRESETS = {
-      light: { stripComments: true, minify: true, stringEnc: false, varRename: true, hexNames: false, junk: false, controlFlow: false, xorPack: false, watermark: true },
-      medium: { stripComments: true, minify: true, stringEnc: true, varRename: true, hexNames: true, junk: true, controlFlow: false, xorPack: true, watermark: true },
-      heavy: { stripComments: true, minify: true, stringEnc: true, varRename: true, hexNames: true, junk: true, controlFlow: true, xorPack: true, watermark: true },
-      maximum: { stripComments: true, minify: true, stringEnc: true, varRename: true, hexNames: true, junk: true, controlFlow: true, xorPack: true, watermark: true }
-    };
-
-    function applyPreset(name) {
-      const p = PRESETS[name];
-      if (!p) return;
-      OPTS.forEach(function (o) {
-        flags[o.id] = !!p[o.id];
-        const el = document.getElementById("opt_" + o.id);
-        if (el) el.checked = flags[o.id];
-      });
-      document.querySelectorAll("#presets .btn").forEach(function (b) {
-        b.classList.toggle("active", b.getAttribute("data-preset") === name);
-      });
-      setStatus("Preset: " + name.toUpperCase() + " · v" + PRODUCT.version, "ok");
-    }
-
     document.querySelectorAll("#presets .btn").forEach(function (b) {
-      b.addEventListener("click", function () {
-        applyPreset(b.getAttribute("data-preset"));
-      });
+      b.classList.toggle("active", b.getAttribute("data-p") === name);
     });
+    st("Preset " + name.toUpperCase() + " · v" + PRODUCT.version, "ok");
+  }
+  document.querySelectorAll("#presets .btn").forEach(function (b) {
+    b.onclick = function () { setPreset(b.getAttribute("data-p")); };
+  });
 
-    const input = document.getElementById("input");
-    const output = document.getElementById("output");
-    const status = document.getElementById("status");
+  const inp = document.getElementById("in");
+  const out = document.getElementById("out");
+  const status = document.getElementById("st");
+  function st(m, t) {
+    status.textContent = m;
+    status.className = "status" + (t ? " " + t : "");
+  }
+  function stats() {
+    document.getElementById("inN").textContent = inp.value.length + " chars";
+    document.getElementById("outN").textContent = out.value.length + " chars";
+  }
+  inp.oninput = stats;
 
-    function setStatus(msg, type) {
-      status.textContent = msg;
-      status.className = "status" + (type ? " " + type : "");
+  const RES = new Set("and break do else elseif end false for function goto if in local nil not or repeat return then true until while game workspace script shared self pairs ipairs next pcall xpcall type typeof tostring tonumber print warn error select table string math bit32 task coroutine require loadstring load assert getfenv setfenv rawget rawset".split(" "));
+
+  function stripComments(s) {
+    s = s.replace(/--\[\[.*?\]\]/gs, "");
+    return s.split("\n").filter(function (l) { return !/^\s*--/.test(l); }).join("\n");
+  }
+  function minify(s) {
+    return s.replace(/\r\n/g, "\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+  }
+  function rnHex() {
+    return "_0x" + Math.random().toString(16).slice(2, 8) + ((Math.random() * 4095) | 0).toString(16);
+  }
+  function rnShort() {
+    return "_" + Math.random().toString(36).slice(2, 8);
+  }
+  function rename(s) {
+    const map = new Map();
+    function name() { return F.hexNames ? rnHex() : rnShort(); }
+    s = s.replace(/\blocal\s+([A-Za-z_][A-Za-z0-9_]*)/g, function (m, n) {
+      if (RES.has(n)) return m;
+      if (!map.has(n)) map.set(n, name());
+      return "local " + map.get(n);
+    });
+    s = s.replace(/\bfunction\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(/g, function (m, n) {
+      if (RES.has(n)) return m;
+      if (!map.has(n)) map.set(n, name());
+      return "function " + map.get(n) + "(";
+    });
+    Array.from(map.keys()).sort(function (a, b) { return b.length - a.length; }).forEach(function (n) {
+      s = s.replace(new RegExp("\\b" + n + "\\b", "g"), map.get(n));
+    });
+    return s;
+  }
+  function encStrings(s) {
+    const bag = [];
+    function put(str) {
+      const bytes = new TextEncoder().encode(str);
+      let bin = "";
+      for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i] ^ 0x5a);
+      bag.push(btoa(bin));
+      return "_S(" + (bag.length - 1) + ")";
     }
-
-    function updateStats() {
-      document.getElementById("inStats").textContent = input.value.length + " chars";
-      document.getElementById("outStats").textContent = output.value.length + " chars";
-    }
-
-    input.addEventListener("input", updateStats);
-
-    const RESERVED = new Set([
-      "and","break","do","else","elseif","end","false","for","function","goto","if","in","local","nil","not","or",
-      "repeat","return","then","true","until","while","game","workspace","script","shared","self","pairs","ipairs",
-      "next","pcall","type","tostring","tonumber","print","warn","error","table","string","math","bit32","task",
-      "require","loadstring","assert"
-    ]);
-
-    function stripComments(src) {
-      src = src.replace(/--\[\[.*?\]\]/gs, "");
-      return src.split("\n").filter(function (l) { return !l.trim().startsWith("--"); }).join("\n");
-    }
-
-    function minify(src) {
-      return src.replace(/\r\n/g, "\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
-    }
-
-    function renameLocals(src) {
-      const names = new Map();
-      let i = 0;
-      function mk() {
-        return flags.hexNames
-          ? "_0x" + (i++).toString(16) + ((Math.random() * 4095) | 0).toString(16)
-          : "_" + (i++).toString(36);
-      }
-      src = src.replace(/\blocal\s+([A-Za-z_][A-Za-z0-9_]*)\b/g, function (m, n) {
-        if (RESERVED.has(n)) return m;
-        if (!names.has(n)) names.set(n, mk());
-        return "local " + names.get(n);
-      });
-      src = src.replace(/\bfunction\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(/g, function (m, n) {
-        if (RESERVED.has(n)) return m;
-        if (!names.has(n)) names.set(n, mk());
-        return "function " + names.get(n) + "(";
-      });
-      Array.from(names.keys())
-        .sort(function (a, b) { return b.length - a.length; })
-        .forEach(function (n) {
-          src = src.replace(new RegExp("\\b" + n + "\\b", "g"), names.get(n));
-        });
-      return src;
-    }
-
-    function encryptStrings(src) {
-      const encoded = [];
-      function store(str) {
-        const bytes = new TextEncoder().encode(str);
-        let bin = "";
-        bytes.forEach(function (b) { bin += String.fromCharCode(b ^ 0x5a); });
-        encoded.push(btoa(bin));
-        return "_S(" + (encoded.length - 1) + ")";
-      }
-      src = src.replace(/"(?:\\.|[^"\\])*"/g, function (m) {
-        if (m.length < 3 || m.length > 100) return m;
-        try {
-          const inner = JSON.parse(m);
-          if (typeof inner !== "string") return m;
-          return store(inner);
-        } catch (e) {
-          return m;
-        }
-      });
-      if (!encoded.length) return src;
-      const table = encoded.map(function (s) { return '"' + s + '"'; }).join(",");
-      return (
-        "local function _S(i)\n" +
-        "\tlocal _t={" + table + "}\n" +
-        "\tlocal b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'\n" +
-        "\tlocal data=string.gsub(_t[i+1] or '','[^'..b..'=]','')\n" +
-        "\tlocal raw=(data:gsub('.',function(x)\n" +
-        "\t\tif x=='=' then return '' end\n" +
-        "\t\tlocal r,f='',(b:find(x)-1)\n" +
-        "\t\tfor i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end\n" +
-        "\t\treturn r\n" +
-        "\tend):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)\n" +
-        "\t\tif #x~=8 then return '' end\n" +
-        "\t\tlocal c=0\n" +
-        "\t\tfor i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end\n" +
-        "\t\treturn string.char(c)\n" +
-        "\tend))\n" +
-        "\tlocal out={}\n" +
-        "\tfor j=1,#raw do out[j]=string.char(bit32.bxor(string.byte(raw,j),0x5A)) end\n" +
-        "\treturn table.concat(out)\n" +
-        "end\n" +
-        src
-      );
-    }
-
-    function junkCode(src) {
-      return (
-        "local _j1=0\n" +
-        "local _j2=string.char(108,111,112)\n" +
-        "local _j3=function(x) return x end\n" +
-        "do local _d=0 if _d~=_d then _j1=1 end end\n" +
-        src
-      );
-    }
-
-    function controlFlow(src) {
-      return (
-        "local _cf=(function() local a=1+1 if a*a==4 and a~=3 then return true end return false end)()\n" +
-        "if not _cf then return end\n" +
-        src
-      );
-    }
-
-    function xorPack(src) {
-      const data = Array.from(new TextEncoder().encode(src));
-      const key = Array.from({ length: 32 }, function () { return 1 + ((Math.random() * 255) | 0); });
-      const xored = data.map(function (b, i) { return b ^ key[i % key.length]; });
-      function toB64(arr) {
-        let bin = "";
-        arr.forEach(function (b) { bin += String.fromCharCode(b); });
-        return btoa(bin);
-      }
-      const payload = toB64(xored);
-      const keyB64 = toB64(key);
-      const chunks = [];
-      for (let i = 0; i < payload.length; i += 100) {
-        chunks.push('"' + payload.slice(i, i + 100) + '"');
-      }
-      return (
-        "local bit32=bit32\n" +
-        "local function _B64(data)\n" +
-        "\tlocal b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'\n" +
-        "\tdata=string.gsub(data,'[^'..b..'=]','')\n" +
-        "\treturn (data:gsub('.',function(x)\n" +
-        "\t\tif x=='=' then return '' end\n" +
-        "\t\tlocal r,f='',(b:find(x)-1)\n" +
-        "\t\tfor i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end\n" +
-        "\t\treturn r\n" +
-        "\tend):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)\n" +
-        "\t\tif #x~=8 then return '' end\n" +
-        "\t\tlocal c=0\n" +
-        "\t\tfor i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end\n" +
-        "\t\treturn string.char(c)\n" +
-        "\tend))\n" +
-        "end\n" +
-        "local function _XOR(data,key)\n" +
-        "\tlocal out={}\n" +
-        "\tlocal kl=#key\n" +
-        "\tfor i=1,#data do out[i]=string.char(bit32.bxor(string.byte(data,i),string.byte(key,((i-1)%kl)+1))) end\n" +
-        "\treturn table.concat(out)\n" +
-        "end\n" +
-        'local _K=_B64("' + keyB64 + '")\n' +
-        "local _P=table.concat({\n" +
-        chunks.join(",\n") +
-        "\n})\n" +
-        "local _src=_XOR(_B64(_P),_K)\n" +
-        "local _fn,_err=loadstring(_src)\n" +
-        'if not _fn then warn("[LOP] load failed: "..tostring(_err)) return end\n' +
-        "return _fn()\n"
-      );
-    }
-
-    function injectWatermark(src) {
-      if (!flags.watermark) return src;
-      const banner = [
-        "-- ============================================================",
-        "--",
-        "--   ##     ##    ###     ######  ########  ######## ########",
-        "--   ##     ##   ## ##   ##    ## ##     ## ##       ##     ##",
-        "--   ##     ##  ##   ##  ##       ##     ## ##       ##     ##",
-        "--   ##     ## ##     ##  ######  ########  ######   ########",
-        "--    ##   ##  #########       ## ##        ##       ##   ##",
-        "--     ## ##   ##     ## ##    ## ##        ##       ##    ##",
-        "--      ###    ##     ##  ######  ##        ######## ##     ##",
-        "--",
-        "--              OBFUSCATED BY VASPER",
-        "--              Powered by LOP Obfuscator v" + PRODUCT.version,
-        "--              Do not redistribute clear source",
-        "--",
-        "-- ============================================================",
-        ""
-      ].join("\n");
-      return banner + "\n" + src;
-    }
-
-    function obfuscate() {
-      let src = input.value;
-      if (!src.trim()) {
-        setStatus("Paste source first.", "err");
-        return;
-      }
+    s = s.replace(/"(?:\\.|[^"\\])*"/g, function (m) {
+      if (m.length < 3 || m.length > 120) return m;
       try {
-        if (flags.stripComments) src = stripComments(src);
-        if (flags.minify) src = minify(src);
-        if (flags.stringEnc) src = encryptStrings(src);
-        if (flags.varRename) src = renameLocals(src);
-        if (flags.controlFlow) src = controlFlow(src);
-        if (flags.junk) src = junkCode(src);
-        if (flags.minify) src = minify(src);
-        if (flags.xorPack) src = xorPack(src);
-        src = injectWatermark(src);
-        output.value = src;
-        const growth = input.value.length ? Math.round((src.length / input.value.length) * 100) : 0;
-        setStatus("Protected · v" + PRODUCT.version + " · " + src.length + " chars · " + growth + "% of original", "ok");
-        updateStats();
-      } catch (e) {
-        setStatus("Error: " + e.message, "err");
-      }
-    }
-
-    document.getElementById("btnRun").addEventListener("click", obfuscate);
-    document.getElementById("btnCopy").addEventListener("click", async function () {
-      if (!output.value) {
-        setStatus("Nothing to copy.", "err");
-        return;
-      }
+        const inner = JSON.parse(m);
+        if (typeof inner !== "string") return m;
+        return put(inner);
+      } catch (e) { return m; }
+    });
+    s = s.replace(/'(?:\\.|[^'\\])*'/g, function (m) {
+      if (m.length < 3 || m.length > 120) return m;
       try {
-        await navigator.clipboard.writeText(output.value);
-        setStatus("Copied.", "ok");
-      } catch (e) {
-        output.select();
-        document.execCommand("copy");
-        setStatus("Copied.", "ok");
-      }
+        const inner = JSON.parse('"' + m.slice(1, -1).replace(/"/g, '\\"') + '"');
+        if (typeof inner !== "string") return m;
+        return put(inner);
+      } catch (e) { return m; }
     });
-    document.getElementById("btnDownload").addEventListener("click", function () {
-      if (!output.value) {
-        setStatus("Nothing to download.", "err");
-        return;
-      }
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([output.value], { type: "text/plain" }));
-      a.download = "lop_protected.lua";
-      a.click();
-      setStatus("Download started.", "ok");
-    });
-    document.getElementById("btnClear").addEventListener("click", function () {
-      input.value = "";
-      output.value = "";
-      updateStats();
-      setStatus("Cleared.");
-    });
-    document.getElementById("btnAllOn").addEventListener("click", function () {
-      OPTS.forEach(function (o) {
-        flags[o.id] = true;
-        const el = document.getElementById("opt_" + o.id);
-        if (el) el.checked = true;
-      });
-      setStatus("All layers on.");
-    });
-    document.getElementById("btnAllOff").addEventListener("click", function () {
-      OPTS.forEach(function (o) {
-        flags[o.id] = false;
-        const el = document.getElementById("opt_" + o.id);
-        if (el) el.checked = false;
-      });
-      setStatus("All layers off.");
-    });
+    if (!bag.length) return s;
+    const table = bag.map(function (x) { return JSON.stringify(x); }).join(",");
+    return "local function _S(i)local t={" + table + "}local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'local d=string.gsub(t[i+1]or'','[^'..b..'=]','')local r=(d:gsub('.',function(x)if x=='='then return''end local r,f='',(b:find(x)-1)for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and'1'or'0')end return r end):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)if #x~=8 then return''end local c=0 for i=1,8 do c=c+(x:sub(i,i)=='1'and 2^(8-i)or 0)end return string.char(c)end))local o={}for j=1,#r do o[j]=string.char(bit32.bxor(string.byte(r,j),0x5A))end return table.concat(o)end\n" + s;
+  }
+  function junk(s) {
+    return "local " + rnShort() + "=0;local " + rnShort() + "=string.char(108,111,112);do local _d=0 if _d~=_d then end end\n" + s;
+  }
+  function cflow(s) {
+    return "local _cf=(function()local a=2 if a*a==4 and a~=3 then return true end return false end)();if not _cf then return end\n" + s;
+  }
+  function pack(s) {
+    const data = Array.from(new TextEncoder().encode(s));
+    const key = Array.from({ length: 32 }, function () { return 1 + ((Math.random() * 255) | 0); });
+    const xored = data.map(function (b, i) { return b ^ key[i % key.length]; });
+    function b64(arr) {
+      let bin = "";
+      arr.forEach(function (b) { bin += String.fromCharCode(b); });
+      return btoa(bin);
+    }
+    const payload = b64(xored);
+    const keyB64 = b64(key);
+    const chunks = [];
+    for (let i = 0; i < payload.length; i += 90) chunks.push(payload.slice(i, i + 90));
+    const payloadExpr = chunks.map(function (c) { return JSON.stringify(c); }).join("..");
+    function n() { return rnShort(); }
+    const A=n(),B=n(),C=n(),D=n(),E=n(),F=n(),G=n(),H=n(),I=n(),J=n(),K=n(),L=n(),M=n(),N=n(),O=n();
+    const Lns = [];
+    Lns.push("return(function(" + A + "," + B + "," + C + "," + D + "," + E + ")");
+    Lns.push("local " + F + "=(bit32 or bit)");
+    Lns.push("local " + G + "=(loadstring or load)");
+    Lns.push("local function " + H + "(" + I + ")");
+    Lns.push("local " + J + "='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'");
+    Lns.push(I + "=string.gsub(" + I + ",'[^'.." + J + "..'=]','')");
+    Lns.push("return (" + I + ":gsub('.',function(" + K + ")if " + K + "=='='then return''end local " + L + ",f='',(" + J + ":find(" + K + ")-1)for i=6,1,-1 do " + L + "=" + L + "..(f%2^i-f%2^(i-1)>0 and'1'or'0')end return " + L + " end):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(" + K + ")if #" + K + "~=8 then return''end local c=0 for i=1,8 do c=c+(" + K + ":sub(i,i)=='1'and 2^(8-i)or 0)end return string.char(c)end))");
+    Lns.push("end");
+    Lns.push("local function " + M + "(" + I + "," + N + ")local " + O + "={}local kl=#" + N + " for i=1,#" + I + " do " + O + "[i]=string.char(" + F + ".bxor(string.byte(" + I + ",i),string.byte(" + N + ",((i-1)%kl)+1)))end return table.concat(" + O + ")end");
+    Lns.push("local " + C + "=" + H + "(" + A + ")");
+    Lns.push("local " + D + "=" + H + "(" + B + ")");
+    Lns.push("local " + E + "=" + M + "(" + C + "," + D + ")");
+    Lns.push("local " + I + "," + J + "=" + G + "(" + E + ")");
+    Lns.push("if not " + I + " then return end");
+    Lns.push("return " + I + "()");
+    Lns.push("end)(" + payloadExpr + "," + JSON.stringify(keyB64) + ")");
+    return Lns.join("\n") + "\n";
+  }
+  function watermark(s) {
+    if (!F.watermark) return s;
+    return [
+      "-- ============================================================",
+      "--",
+      "--   ##     ##    ###     ######  ########  ######## ########",
+      "--   ##     ##   ## ##   ##    ## ##     ## ##       ##     ##",
+      "--   ##     ##  ##   ##  ##       ##     ## ##       ##     ##",
+      "--   ##     ## ##     ##  ######  ########  ######   ########",
+      "--    ##   ##  #########       ## ##        ##       ##   ##",
+      "--     ## ##   ##     ## ##    ## ##        ##       ##    ##",
+      "--      ###    ##     ##  ######  ##        ######## ##     ##",
+      "--",
+      "--              OBFUSCATED BY VASPER",
+      "--              Powered by LOP Obfuscator v" + PRODUCT.version,
+      "--",
+      "-- ============================================================",
+      "",
+      s
+    ].join("\n");
+  }
 
-    updateStats();
-    applyPreset("medium");
+  function run() {
+    let s = inp.value;
+    if (!s.trim()) return st("Paste source first.", "err");
+    try {
+      if (F.stripComments) s = stripComments(s);
+      if (F.minify) s = minify(s);
+      if (F.stringEnc) s = encStrings(s);
+      if (F.varRename) s = rename(s);
+      if (F.controlFlow) s = cflow(s);
+      if (F.junk) s = junk(s);
+      if (F.minify) s = minify(s);
+      if (F.xorPack) s = pack(s);
+      s = watermark(s);
+      out.value = s;
+      const g = inp.value.length ? Math.round((s.length / inp.value.length) * 100) : 0;
+      st("Protected · v" + PRODUCT.version + " · " + s.length + " chars · " + g + "% of original", "ok");
+      stats();
+    } catch (e) {
+      st("Error: " + e.message, "err");
+    }
+  }
+
+  document.getElementById("run").onclick = run;
+  document.getElementById("copy").onclick = async function () {
+    if (!out.value) return st("Nothing to copy.", "err");
+    try { await navigator.clipboard.writeText(out.value); st("Copied.", "ok"); }
+    catch (e) { out.select(); document.execCommand("copy"); st("Copied.", "ok"); }
+  };
+  document.getElementById("dl").onclick = function () {
+    if (!out.value) return st("Nothing to download.", "err");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([out.value], { type: "text/plain" }));
+    a.download = "lop_protected.lua";
+    a.click();
+    st("Download started.", "ok");
+  };
+  document.getElementById("clear").onclick = function () {
+    inp.value = ""; out.value = ""; stats(); st("Cleared.");
+  };
+  document.getElementById("allOn").onclick = function () {
+    OPTS.forEach(function (o) {
+      F[o.id] = true;
+      const el = document.getElementById("o_" + o.id);
+      if (el) el.checked = true;
+    });
+    st("All on.");
+  };
+  document.getElementById("allOff").onclick = function () {
+    OPTS.forEach(function (o) {
+      F[o.id] = false;
+      const el = document.getElementById("o_" + o.id);
+      if (el) el.checked = false;
+    });
+    st("All off.");
+  };
+
+  stats();
+  setPreset("medium");
+})();
   </script>
 </body>
 </html>
