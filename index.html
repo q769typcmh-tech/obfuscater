@@ -180,7 +180,7 @@
         <a href="#tool">Tool</a>
         <a href="#features">Features</a>
         <a href="#updates">Updates</a>
-        <span class="pill" id="navVer">v2.0.0</span>
+        <span class="pill" id="navVer">v2.0.1</span>
       </div>
     </div>
   </nav>
@@ -201,7 +201,7 @@
       </div>
       <div class="card">
         <div class="r"><span class="k">Product</span><span class="v">LOP Obfuscator</span></div>
-        <div class="r"><span class="k">Version</span><span class="v" id="heroVer">2.0.0</span></div>
+        <div class="r"><span class="k">Version</span><span class="v" id="heroVer">2.0.1</span></div>
         <div class="r"><span class="k">Build</span><span class="v">2026.09.25</span></div>
         <div class="r"><span class="k">Engine</span><span class="v">v2 rewrite</span></div>
         <div class="r"><span class="k">Status</span><span class="v" style="color:var(--ok)">Operational</span></div>
@@ -254,7 +254,7 @@
           <textarea id="out" placeholder="-- protected output" spellcheck="false"></textarea>
         </div>
       </div>
-      <div class="status" id="st">Ready · v2.0.0</div>
+      <div class="status" id="st">Ready · v2.0.1</div>
     </section>
 
     <section id="updates">
@@ -265,18 +265,18 @@
 
     <footer>
       <span>© LOP Obfuscator</span>
-      <span id="footVer">v2.0.0</span>
+      <span id="footVer">v2.0.1</span>
     </footer>
   </div>
 
   <script>
 (function () {
   const PRODUCT = {
-    version: "2.0.0",
+    version: "2.0.1",
     build: "2026.09.25",
     updates: [
       {
-        v: "2.0.0", d: "2026-09-25",
+        v: "2.0.1", d: "2026-09-25",
         a: [
           "BIG UPDATE — full v2 engine rewrite",
           "Opaque number mangling layer",
@@ -351,8 +351,8 @@
   const PRESETS = {
     light: { stripComments:1, minify:1, stringEnc:0, opaqueNums:0, varRename:1, hexNames:0, junk:0, controlFlow:0, xorPack:0, watermark:1 },
     medium: { stripComments:1, minify:1, stringEnc:1, opaqueNums:0, varRename:1, hexNames:1, junk:1, controlFlow:0, xorPack:1, watermark:1 },
-    heavy: { stripComments:1, minify:1, stringEnc:1, opaqueNums:1, varRename:1, hexNames:1, junk:1, controlFlow:1, xorPack:1, watermark:1 },
-    maximum: { stripComments:1, minify:1, stringEnc:1, opaqueNums:1, varRename:1, hexNames:1, junk:1, controlFlow:1, xorPack:1, watermark:1 }
+    heavy: { stripComments:1, minify:1, stringEnc:1, opaqueNums:0, varRename:1, hexNames:1, junk:1, controlFlow:0, xorPack:1, watermark:1 },
+    maximum: { stripComments:1, minify:1, stringEnc:1, opaqueNums:0, varRename:1, hexNames:1, junk:1, controlFlow:1, xorPack:1, watermark:1 }
   };
 
   function setPreset(name) {
@@ -427,45 +427,43 @@
       return "(" + a + "+" + b + ")";
     });
   }
+
   function encStrings(s) {
     const bag = [];
     function put(str) {
       const bytes = new TextEncoder().encode(str);
       let bin = "";
-      const xor = 0x5a ^ (bag.length % 7);
-      for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i] ^ xor);
-      bag.push({ b64: btoa(bin), xor: xor });
+      for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i] ^ 0x5A);
+      bag.push(btoa(bin));
       return "_S(" + (bag.length - 1) + ")";
     }
+    // only double-quoted, skip huge strings
     s = s.replace(/"(?:\\.|[^"\\])*"/g, function (m) {
-      if (m.length < 3 || m.length > 140) return m;
+      if (m.length < 3 || m.length > 80) return m;
       try {
         const inner = JSON.parse(m);
-        if (typeof inner !== "string") return m;
-        return put(inner);
-      } catch (e) { return m; }
-    });
-    s = s.replace(/'(?:\\.|[^'\\])*'/g, function (m) {
-      if (m.length < 3 || m.length > 140) return m;
-      try {
-        const inner = JSON.parse('"' + m.slice(1, -1).replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"');
-        if (typeof inner !== "string") return m;
+        if (typeof inner !== "string" || inner.length > 60) return m;
         return put(inner);
       } catch (e) { return m; }
     });
     if (!bag.length) return s;
-    const table = bag.map(function (x) { return "{" + JSON.stringify(x.b64) + "," + x.xor + "}"; }).join(",");
-    return "local function _S(i)local t={" + table + "}local e=t[i+1]if not e then return''end local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'local d=string.gsub(e[1],'[^'..b..'=]','')local r=(d:gsub('.',function(x)if x=='='then return''end local r,f='',(b:find(x)-1)for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and'1'or'0')end return r end):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)if #x~=8 then return''end local c=0 for i=1,8 do c=c+(x:sub(i,i)=='1'and 2^(8-i)or 0)end return string.char(c)end))local o={}local x=e[2]for j=1,#r do o[j]=string.char(bit32.bxor(string.byte(r,j),x))end return table.concat(o)end\n" + s;
+    // Cap table size to avoid register/const explosion
+    if (bag.length > 40) return s;
+    const table = bag.map(function (x) { return JSON.stringify(x); }).join(",");
+    // Minimal-register decoder (reuse temps, no extra locals explosion)
+    return "local function _S(i)local t,b,d,r,o,j={" + table + "},'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',nil,nil,{},nil d=string.gsub(t[i+1]or'','[^'..b..'=]','')r=(d:gsub('.',function(x)if x=='='then return''end local z,f='',(b:find(x)-1)for i=6,1,-1 do z=z..(f%2^i-f%2^(i-1)>0 and'1'or'0')end return z end):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)if #x~=8 then return''end local c=0 for i=1,8 do c=c+(x:sub(i,i)=='1'and 2^(8-i)or 0)end return string.char(c)end))for j=1,#r do o[j]=string.char(bit32.bxor(string.byte(r,j),90))end return table.concat(o)end\n" + s;
   }
+
   function junk(s) {
     return "local " + rnShort() + "=0;local " + rnShort() + "=string.char(76,79,80);do local _d=0 if _d~=_d then end end\n" + s;
   }
   function cflow(s) {
     return "local _cf=(function()local a=2 if a*a==4 and a~=3 then return true end return false end)();if not _cf then return end\n" + s;
   }
+
   function pack(s) {
     const data = Array.from(new TextEncoder().encode(s));
-    const key = Array.from({ length: 32 }, function () { return 1 + ((Math.random() * 255) | 0); });
+    const key = Array.from({ length: 16 }, function () { return 1 + ((Math.random() * 255) | 0); });
     const xored = data.map(function (b, i) { return b ^ key[i % key.length]; });
     function b64(arr) {
       let bin = "";
@@ -474,30 +472,35 @@
     }
     const payload = b64(xored);
     const keyB64 = b64(key);
+    // fewer chunks / simpler concat
     const chunks = [];
-    for (let i = 0; i < payload.length; i += 90) chunks.push(payload.slice(i, i + 90));
+    for (let i = 0; i < payload.length; i += 120) chunks.push(payload.slice(i, i + 120));
     const payloadExpr = chunks.map(function (c) { return JSON.stringify(c); }).join("..");
-    function n() { return rnShort(); }
-    const A=n(),B=n(),C=n(),D=n(),E=n(),F=n(),G=n(),H=n(),I=n(),J=n(),K=n(),L=n(),M=n(),N=n(),O=n();
-    const Lns = [];
-    Lns.push("return(function(" + A + "," + B + "," + C + "," + D + "," + E + ")");
-    Lns.push("local " + F + "=(bit32 or bit)");
-    Lns.push("local " + G + "=(loadstring or load)");
-    Lns.push("local function " + H + "(" + I + ")");
-    Lns.push("local " + J + "='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'");
-    Lns.push(I + "=string.gsub(" + I + ",'[^'.." + J + "..'=]','')");
-    Lns.push("return (" + I + ":gsub('.',function(" + K + ")if " + K + "=='='then return''end local " + L + ",f='',(" + J + ":find(" + K + ")-1)for i=6,1,-1 do " + L + "=" + L + "..(f%2^i-f%2^(i-1)>0 and'1'or'0')end return " + L + " end):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(" + K + ")if #" + K + "~=8 then return''end local c=0 for i=1,8 do c=c+(" + K + ":sub(i,i)=='1'and 2^(8-i)or 0)end return string.char(c)end))");
-    Lns.push("end");
-    Lns.push("local function " + M + "(" + I + "," + N + ")local " + O + "={}local kl=#" + N + " for i=1,#" + I + " do " + O + "[i]=string.char(" + F + ".bxor(string.byte(" + I + ",i),string.byte(" + N + ",((i-1)%kl)+1)))end return table.concat(" + O + ")end");
-    Lns.push("local " + C + "=" + H + "(" + A + ")");
-    Lns.push("local " + D + "=" + H + "(" + B + ")");
-    Lns.push("local " + E + "=" + M + "(" + C + "," + D + ")");
-    Lns.push("local " + I + "," + J + "=" + G + "(" + E + ")");
-    Lns.push("if not " + I + " then return end");
-    Lns.push("return " + I + "()");
-    Lns.push("end)(" + payloadExpr + "," + JSON.stringify(keyB64) + ")");
-    return Lns.join("\n") + "\n";
+
+    // LEAN loader — few registers (fixes Luau 255 limit)
+    // Uses only a handful of locals inside return(function)
+    return (
+      "return(function(a,b)\\n" +
+      "local c,d,e,f,g,h,i,j\\n" +
+      "c=(bit32 or bit)\\n" +
+      "d=(loadstring or load)\\n" +
+      "e='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'\\n" +
+      "f=function(s)\\n" +
+      "s=string.gsub(s,'[^'..e..'=]','')\\n" +
+      "return (s:gsub('.',function(x)if x=='='then return''end local r,n='',(e:find(x)-1)for i=6,1,-1 do r=r..(n%2^i-n%2^(i-1)>0 and'1'or'0')end return r end):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)if #x~=8 then return''end local v=0 for i=1,8 do v=v+(x:sub(i,i)=='1'and 2^(8-i)or 0)end return string.char(v)end))\\n" +
+      "end\\n" +
+      "g=f(a)\\n" +
+      "h=f(b)\\n" +
+      "i={}\\n" +
+      "for j=1,#g do i[j]=string.char(c.bxor(string.byte(g,j),string.byte(h,((j-1)%#h)+1)))end\\n" +
+      "g=table.concat(i)\\n" +
+      "i,j=d(g)\\n" +
+      "if not i then return end\\n" +
+      "return i()\\n" +
+      "end)(" + payloadExpr + "," + JSON.stringify(keyB64) + ")\\n"
+    );
   }
+
   function watermark(s) {
     if (!F.watermark) return s;
     return [
@@ -524,13 +527,14 @@
     let s = inp.value;
     if (!s.trim()) return st("Paste source first.", "err");
     try {
+      const big = s.length > 120000;
       if (F.stripComments) s = stripComments(s);
       if (F.minify) s = minify(s);
-      if (F.opaqueNums) s = opaqueNums(s);
-      if (F.stringEnc) s = encStrings(s);
+      if (F.opaqueNums && !big) s = opaqueNums(s);
+      if (F.stringEnc && !big) s = encStrings(s);
       if (F.varRename) s = rename(s);
-      if (F.controlFlow) s = cflow(s);
-      if (F.junk) s = junk(s);
+      if (F.controlFlow && !big) s = cflow(s);
+      if (F.junk && !big) s = junk(s);
       if (F.minify) s = minify(s);
       if (F.xorPack) s = pack(s);
       s = watermark(s);
